@@ -60,8 +60,45 @@ ACTIVITIES
 cd
 git clone https://git.cybbh.space/programming/python/public.git
 SCRIPT
+______________________________________________________________________________________________________________________________________________________________________
+FIZZBUZZ
   1 #!/usr/bin/env python3
   2 
   3 a = 'Hello'
   4 print(a)  
-  
+    1 #!/usr/bin/env python3
+  2 n = int(input('Enter a number: '))
+  3 if n % 3 == 0 and n % 5 == 0:
+  4     print ('fizzbuzz')
+  5 elif n % 5 == 0:
+  6     print ('buzz')
+  7 elif n % 3 == 0:
+  8     print ('fizz')
+  9 else:
+ 10     print(n)
+______________________________________________________________________________________________________________________________________________________________________
+
+while statements, such as while Mr Mitchell was in Afghanistan he had created a Tiki Bar
+while True: is an infinite loop
+
+______________________________________________________________________________________________________________________________________________________________________
+
+Guessing game
+  1 #!/usr/bin/env python3
+  2 
+  3 def guess_number(n):
+  4     while True:
+  5         x = int(input ('Enter a number between 1 and 100: '))
+  6         
+  7         if x < n:
+  8             print("too low")
+  9             continue
+ 10         elif x > n:
+ 11             print("too high")
+ 12             continue
+ 13         if x == n:
+ 14             print ("WIN")
+ 15             break
+ 16     
+ 17 guess_number(23)
+______________________________________________________________________________________________________________________________________________________________________
