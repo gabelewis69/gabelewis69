@@ -102,3 +102,30 @@ Guessing game
  16     
  17 guess_number(23)
 ______________________________________________________________________________________________________________________________________________________________________
+
+for range (start, stop, step)
+if prime is a list then you can use [1:2:3] as a way to traverse the index with the same start stop step
+slicing
+For loops
+
+when working with binary use format(a,'0>8b')
+
+def invert(l):
+    for n in range(0, len(l)):
+        l[n] = str(255 - int(l[n]))
+    Or
+    counts = 0
+    for num in l:
+    l[counts] = str(255-int(num))
+    counts += 1
+    Or
+    for count,numb in enumerate(l):
+      l[count] = str(255-int(num))
+  def inverted(l):
+      result = []
+      for n in range(0, len(l)):
+      result.append(str(255 - int(l[n])))
+      print(result)
+      return result
+
+      
