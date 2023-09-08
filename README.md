@@ -110,6 +110,10 @@ For loops
 
 when working with binary use format(a,'0>8b')
 
+If you have a string named fish and then do list(fish) it will separate the name of the fish into separate pieces in a list
+Works the same with changing it into an integer, int(fish), or a float, float(fish)
+If you have a list you use ''.join(fish) to get it into a string from a list
+
 def invert(l):
     for n in range(0, len(l)):
         l[n] = str(255 - int(l[n]))
@@ -127,5 +131,82 @@ def invert(l):
       result.append(str(255 - int(l[n])))
       print(result)
       return result
+______________________________________________________________________________________________________________________________________________________________________
+Dictionary
+romanNumerals = {'I':1,'V':5,'X':10,'L':50}
+romanNumerals['X']
+10
+romanNumerals['C'] = 100
+romanNumerals['C']
+100
 
+ord takes the string and finds the ordinal value, ex. a is 97 which can be translated into binary
+The opposite of ord is chr ex. chr(97) = 'a'
+msgbin = format(ord(msg), '0>8b')
       
+______________________________________________________________________________________________________________________________________________________________________
+Stego exercise
+
+ def steg_encode_char(char, cover):
+  6     charbin = format(ord(char),'0>8b')
+  7     for i in range(0,len(cover)):
+  8         coverbinl = list(format(int(cover[i]),'0>8b'))
+  9         coverbinl[-1] = charbin[i]
+ 10         cover[i] = str(int(''.join(coverbinl),base = 2))
+ 11         
+ 12     pass
+ 13     
+ 14 def steg_decode_char(stego):
+ 15     msgbits = []
+ 16     for b in stego:
+ 17         msgbits.append(bin(int(b))[-1])
+ 18     return chr(int(''.join(msgbits),2))
+ 19     
+ 20     pass
+ 21 
+ 22 if __name__ == '__main__':
+ 23     pass
+
+This was taking a binary and hiding it within 8 different binaries and breaks things into lists and puts them back together.
+
+______________________________________________________________________________________________________________________________________________________________________
+
+
+
+
+fp = open("test.txt")
+fp.close()
+with open("test.txt") as fp:
+ 1 with open('test.txt', 'w') as fp: 
+ 2     fp.write('first line\n')
+with open('test.txt', 'r') as fp:
+...     fp.read()
+when using fp.read() it returns the characters as strings with no escape characters, so \n is just \n
+when a number is used in fp.read(5) it returns 5 bytes of the file, a character is a byte so it will return the first 5 letters\
+when using fp.readline() it returns a string, when using fp.readlines() it is returned as a list of strings
+with open('test.txt') as fp:
+...     for line in fp:
+...             print(line,end='')
+with this it opens up all of the lines with the newline breaks (\n) and opens as if you are using cat on the .txt file
+
+
+______________________________________________________________________________________________________________________________________________________________________
+
+file_io assignment
+
+
+
+The textfile, travel_plans.txt, contains the summer travel plans for someone with some commentary. Find the total number of characters in the file and save to the variable num.
+
+with open('travel_plans.txt', 'r') as fp:
+    num = len(fp.read())
+
+We have provided a file called emotion_words.txt that contains lines of words that describe emotions. Find the total number of words in the file and assign this value to the variable num_words.
+
+with open('emotion_words.txt', 'r') as fp:
+    strings = fp.readline()
+    num_words = len(strings) - 6
+
+    
+    
+______________________________________________________________________________________________________________________________________________________________________
