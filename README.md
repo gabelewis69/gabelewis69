@@ -457,3 +457,183 @@ ________________________________________________________________________________
 
 
 
+______________________________________________________________________________________________________________________________________________________________________
+
+Practice Exam 2
+
+def q1(sentence):
+       '''
+       Given a string of multiple words separated by single spaces,
+       return a new string with the sentence reversed. The words
+       themselves should remain as they are. For example, given
+       'it is accepted as a masterpiece on strategy', the returned
+       string should be 'strategy on masterpiece a as accepted is it'.
+      '''
+      sentenceG = sentence.split()
+      sentenceT = sentenceG[::-1]
+      sentenceF = ' '.join(sentenceT)
+      return sentenceF
+      pass
+OR
+      return ' '.join(reversed(sentence.split()))
+
+def q2(n):
+      '''
+      Given a positive integer, return its string representation with
+      commas seperating groups of 3 digits. For example, given 65535
+      the returned string should be '65,535'.
+      '''
+      res = ('{:,}'.format(n))
+      return res
+      pass
+
+def q3(lst0, lst1):
+      '''
+      Given two lists of integers, return a sorted list that contains
+      all integers from both lists in descending order. For example,
+      given [3,4,9] and [8,1,5] the returned list should be [9,8,5,4,3,1].
+      The returned list may contain duplicates.
+      '''
+      lst = lst0 + lst1
+      lst.sort(reverse=True)
+      return lst
+      pass
+      
+def q4(s1,s2,s3):
+      '''
+      Given 3 scores in the range [0-100] inclusive, return 'GO' if
+      the average score is greater than 50. Otherwise return 'NOGO'.
+      '''
+      avg = (s1 + s2 + s3) / 3
+      if avg >= 51:
+          return('GO')
+      else:
+          return('NOGO')
+      pass
+  
+def q5(integer, limit):
+      '''
+      Given an integer and limit, return a list of even multiples of the
+      integer up to and including the limit. For example, if integer==3 and
+      limit==30, the returned list should be [0,6,12,18,24,30]. Note, 0 is
+      a multiple of any integer except 0 itself.
+      '''
+      return [n for n in range(0, limit+1) if n % integer == 0 and n % 2 == 0]
+
+      OR
+
+      multiples = []
+      for i in range(0, limit+1):
+          if i % integer == 0  and i % 2 == 0:
+              multiples.append(i)
+      return multiples
+
+def q6(f0, f1):
+      '''
+      Given two filenames, return a list whose elements consist of line numbers
+      for which the two files differ. The first line is considered line 0.
+      '''
+      diffs = []
+      linenum = 0
+      with open(f0) as fp0: 
+         with open(f1) as fp1:
+              lines0 = fp0.readlines()
+              for i in fp1.readlines():
+                  if i != lines0[linenum]:
+                      diffs.append(linenum)
+                  linenum += 1
+      return diffs
+
+      
+      
+      pass
+
+ def q7(lst):
+      '''
+      Return the first duplicate value in the given list.
+      For example, if given [5,7,9,1,3,7,9,5], the returned value should
+      be 7.
+      '''
+      b=[]
+      for i in range(len(lst)):
+          if lst[i] in b:
+              return(lst[i])
+          elif lst[i] not in b and i == (len(lst)-1):
+              return(-1)
+          else:
+              b.append(lst[i])
+      pass
+
+OR
+      b = []
+      for i in lst:
+          if i in seen:
+              return i
+          else:
+              seen.append
+
+ def q8(strng):
+      '''
+      Given a sentence as a string with words being separated by a single space,
+      return the length of the shortest word.
+      '''
+      shortest = min(strng.split(), key=len)
+      return len(shortest)
+      pass
+
+ def q9(strng):
+     '''
+     Given an alphanumeric string, return the character whose ascii value
+     is that of the integer represenation of all of the digits in the string
+     concatenated in the order in which they appear. For example, given
+     'hell9oworld7', the returned character should be 'a' which has
+     the ascii value of 97.
+     '''
+     res = ''.join(filter(lambda i: i.isdigit(), strng))
+     resT = chr(int(res))
+     return resT
+ 
+     pass
+
+ def q10(arr):
+     '''
+     Given a list of positive integers sorted in ascending order, return
+     the first non-consecutive value. If all values are consecutive, return
+     None. For example, given [1,2,3,4,6,7], the returned value should be 6. 
+     '''
+     i = 1
+     for x in arr:
+         if i < len(arr) and arr[i] - arr[i-1] != 1:
+             return arr[i]
+         i += 1
+     return None
+ 
+     pass
+OR
+
+    for i in range(len(arr)):
+        if (arr[i+1] - arr[i] != 1:
+            return arr[i+1]
+    return None
+
+
+ 
+______________________________________________________________________________________________________________________________________________________________________
+
+Test notes
+format just a way to literally format a string to represent how we want it to look
+'Hello. My name is {}.'.format('SSgt')
+adding an f in front makes it so you can add format shorthand
+given variables you can use it in format
+i.e a = 'LCpl' and b = 'Lewis'
+f'Hello, my name is {a} {b}.'
+'Hello,  my name is LCpl Lewis.'
+Remember the range command
+Creates a range object but doesn't display it, to display it change it into a list
+Split Join Split
+ip = 192.168.0.10
+octet = ip.split('.')
+octet0 = octect[0]
+octt0 = 192
+READ THE FUCKING QUESTION
+READ THE HANDBOOK AND OR NOTES NOT JUST THE BLOCKS OF CODE YOU GOOBER
