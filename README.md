@@ -204,9 +204,256 @@ with open('travel_plans.txt', 'r') as fp:
 We have provided a file called emotion_words.txt that contains lines of words that describe emotions. Find the total number of words in the file and assign this value to the variable num_words.
 
 with open('emotion_words.txt', 'r') as fp:
-    strings = fp.readline()
-    num_words = len(strings) - 6
+  num_read = fp.read()
+  num_split = num_read.split()
+  num_words = len(num_split)
 
-    
+  
+Assign to the variable num_lines the number of lines in the file school_prompt.txt.
+
+with open('school_prompt.txt', 'r') as fp:
+    strings = fp.readlines()
+    num_lines = len(strings)
+OR
+with open('school_prompt.txt', 'r') as fp:
+    num_lines = len(fp.readlines())
+
+Assign the first 30 characters of school_prompt.txt as a string to the variable beginning_chars.
+with open('school_prompt.txt', 'r') as fp:
+    beginning_chars = fp.read(30)
+
+Using the file school_prompt.txt, assign the third word of every line to a list called three.
+with open('school_prompt.txt', 'r') as fp:
+    three = [line.split()[2] for line in fp]
+
+
+Create a list called emotions that contains the first word of every line in emotion_words.txt.
+with open('emotion_words.txt', 'r') as fp:
+    emotions = [line.split()[0] for line in fp]
+OR
+three = []
+with open('emotion_words.txt', 'r') as fp:
+    for i in fp.readlines():
+      three.append(i.split()[2])
+
+Create a list called emotions that contains the first word of every line in emotion_words.txt.
+with open('emotion_words.txt', 'r') as fp:
+    emotions = [line.split()[0] for line in fp]
+OR 
+emotions = []
+with open('emotion_words.txt', 'r') as fp:
+    for line in fp.readlines:
+      emotions.append(line.split()[0])
+
+Assign the first 33 characters from the textfile, travel_plans.txt to the variable first_chars.
+with open('travel_plans.txt', 'r') as fp:
+          first_chars = fp.read(33)
+
+Using the file school_prompt.txt, if the character ‘p’ is in a word, then add the word to a list called p_words.
+
+p_words = []
+with open('school_prompt.txt') as fp:
+  lines = fp.read()
+  for i in lines.split():
+    if 'p' in i:
+      p_words.append(i)
+OR
+p_words =[]
+for line in fp:
+  for word in line.split():
+    if 'p' in word:
+      p_words.append(word)
     
 ______________________________________________________________________________________________________________________________________________________________________
+
+
+*args and **kwargs, these allow to have multiple values, such as a calculator, making it so you can add 4 different numbers together or more if you need
+    
+
+
+______________________________________________________________________________________________________________________________________________________________________
+
+Practice Test
+
+def q1(floatstr):
+       '''
+       TLO: 112-SCRPY002, LSA 3,4
+       Given the floatstr, which is a comma separated string of
+       floats, return a list with each of the floats in the 
+       argument as elements in the list.
+       '''
+      newlist = []
+      for y in floatstr.split(','):
+        newlist.append(float(y))
+      return newlist
+
+      pass
+
+      
+def q2(*args):
+
+  '''
+  TLO: 112-SCRPY006, LSA 3
+  TLO: 112-SCRPY007, LSA 4
+  Given the variable length argument list, return the average
+  of all the arguments as a float
+  '''
+  s = 0
+  for arg in args:
+    s += args
+  return s/len(args)
+  pass
+OR 
+return sum(args)/len(args)
+  
+def q3(lst,n):
+
+  '''
+  TLO: 112-SCRPY004, LSA 3
+  Given a list (lst) and a number of items (n), return a new 
+  list containing the last n entries in lst.
+  '''
+  return lst[-n:]
+
+def q4(strng):
+  '''
+  TLO: 112-SCRPY004, LSA 1,2
+  TLO: 112-SCRPY006, LSA 3
+  Given an input string, return a list containing the ordinal numbers of 
+  each character in the string in the order found in the input string
+  '''
+  newlist = []
+  for i in list(strng):
+    newlist.append(ord(i))
+  return newlist
+  pass
+OR
+  return [ord(x) for x in strng]
+
+  def q5(strng):
+'''
+TLO: 112-SCRPY002, LSA 1,3
+TLO: 112-SCRPY004, LSA 2
+Given an input string, return a tuple with each element in the tuple
+containing a single word from the input string in order.
+'''
+return tuple(strng.split())
+
+ def q6(catalog, order):
+      '''
+      TLO: 112-SCRPY007, LSA 2
+      Given a dictionary (catalog) whose keys are product names and values are product
+      prices per unit and a list of tuples (order) of product names and quantities,
+      compute and return the total value of the order.
+  
+      Example catalog:
+      {
+          'AMD Ryzen 5 5600X': 289.99,
+          'Intel Core i9-9900K': 363.50,
+          'AMD Ryzen 9 5900X': 569.99
+      }
+  
+      Example order:
+      [
+          ('AMD Ryzen 5 5600X', 5), 
+          ('Intel Core i9-9900K', 3)
+      ]
+  
+      Example result:
+      2540.45 
+  
+      How the above result was computed:
+      (289.99 * 5) + (363.50 * 3)
+      total = []
+      for key in catalog:
+          for item in order:
+              if item[0] == key:
+                  total.append(catalog[key] * item[1])
+      return sum(total)
+
+      OR
+
+      total = 0
+      for product,quantity in order:
+        total += catalog[product] * quantity
+      return sum(total)
+
+
+
+def q7(filename):
+     '''
+     TLO: 112-SCRPY005, LSA 1
+     Given a filename, open the file and return the length of the first line 
+     in the file excluding the line terminator.
+     '''
+     with open(filename) as fp:
+       x = fp.readline()
+       y = len(x) - 1
+       return y
+
+
+
+ def q8(filename,lst):
+     '''
+     TLO: 112-SCRPY003, LSA 1
+     TLO: 112-SCRPY004, LSA 1,2
+     TLO: 112-SCRPY005, LSA 1
+     Given a filename and a list, write each entry from the list to the file
+     on separate lines until a case-insensitive entry of "stop" is found in 
+     the list. If "stop" is not found in the list, write the entire list to 
+     the file on separate lines.
+     '''
+    with open(filename, 'w') as fp:
+      for item in lst:
+        if item.lower() == 'stop':
+          break
+        fp.write(f'{item}\n')
+    pass
+
+
+
+ def q9(miltime):
+     '''
+     TLO: 112-SCRPY003, LSA 1
+     Given the military time in the argument miltime, return a string 
+     containing the greeting of the day.
+     0300-1159 "Good Morning"
+     1200-1559 "Good Afternoon"
+     1600-2059 "Good Evening"
+     2100-0259 "Good Night"
+     '''
+     if miltime >= 301 and miltime < 1200:
+       return "Good Morning"
+     elif miltime >= 1200 and miltime < 1600:
+       return "Good Afternoon"
+     elif >= 1600 and miltime < 2100:
+       return "Good Evening"
+     else:
+       return "Good Night"
+
+ def q10(numlist):
+     '''
+     TLO: 112-SCRPY003, LSA 1
+     TLO: 112-SCRPY004, LSA 1
+     Given the argument numlist as a list of numbers, return True if all 
+     numbers in the list are NOT negative. If any numbers in the list are
+     negative, return False.
+     '''
+     for i in numlist:
+       if i < 0:
+         return False
+       return True
+
+       
+      
+
+
+
+
+
+    
+______________________________________________________________________________________________________________________________________________________________________
+
+
+
+
