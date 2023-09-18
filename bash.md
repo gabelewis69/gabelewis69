@@ -86,3 +86,121 @@ tail /etc/passwd | cut -d: -f1
 the -f stands for field, in this case showing the first field
 the -s only shows the lines that match the delimiter
 
+alias
+an alias is a different name that can be assigned to command
+copy for cp, move for mv, or cls for clear
+if a=$(cat /etc/passwd)
+$a will not return anything
+echo $a will give you the intended results
+
+conditionals
+if [[ condition ]]; then 
+        commands
+elife [[ condition ]]; then
+        commands
+else
+        commands
+fi
+-e          file exists ?
+-f          file exists, and is regular file ?
+-d          file exists, and is a directory ?
+-s          file exists, and is NOT empty ?
+-x          file exists, and IS executable ?
+-w          file exists, and is writable by me ?
+-gt >       is greater than
+-lt <       is less than
+-ge         is greater than or equal to
+-le         is less than or equal to
+-eq ==      is equal to
+-ne !=      is NOT equal to
+w and above is all for files, the greater than less than double equals and not equals are very specific for strings themselves. Misusing these conditionals can provide you with false positives or false negatives
+When comparing strings and integers you need to know which comparision you need to use. With strings use ==, with integers use -eq
+
+sed
+it is similar to cut because it lets you change things in the output, main difference is sed allows you to make the changes permanent -i. 
+cat passworde | sed 's/telnetd/TELNETD/' passworde
+passworde is just a copy of /etc/passwd 
+cat password | sed -e '/xrdp/d' -e '/telnetd/d'
+
+awk
+cat hosts | awk -F: '{print $1}'
+cat hosts | awk -F: 'BEGIN {OFS="&"}{print $1,$3}'
+tail password | awk =F: '{print $NF}'
+$NF is printing the last field of this string no matter how many fields there are
+tail password  | awk -F: 'BEGIN {OFS="$"}{print $1,$3,$4,$NF}'
+cat passworde | awk -F: '($3 >= 100)&&($4 <= 1000){print $0}'
+SSgt made this fat one-liner for the hosts on the watch floor
+cat hosts | awk -F: -v "awkuser=$user" -v "awkoffice=$office" 'BEGIN {OFS=":"} {$2=awkuser}{$4=awkoffice}{print $0}'
+cat hosts | awk -F. -v "awkip = $ip" 'BEGIN {OFS"."} {$2=awkip}{print $0}'
+"
+sort
+tail password | awk -F: '{print $3}' | sort -n
+sort                sorts content according to position on the ASCII table
+sort -n             sorts content numerically
+sort -u             sorts content uniqely
+sort -nr            sorts content numerically reversed
+sort -t +
+sort -k 2,4         sorts 1st by content in the 2nd column, then by content in the 4th column
+cat password | awk -F: '{print $1}' | sort
+sort -u will uniquely sort them but cannot show a count like uniq
+cat passworde | awk -F: '{print $3,$4}' | sort -n -k 2
+
+
+uniq
+uniq                sorts content uniqely
+uniq -c             sorts content uniqely with a count reading
+MUST USE SORT BEFORE USING UNIQ
+is going to cut out any duplicates and with -c will say how many repeats there are of things
+
+Parameter is the same thing as variable
+variable_name = value
+$varable_name -- calls a variable
+expr == does math
+c = $(expr $a - $b)
+echo $c
+
+special variable 
+$* -- The positional parameters, starting from one
+$@ -- Position parameters, starting from one
+$# -- Number of positional parameters
+$? -- The exit status of previous command
+$- -- The current option flags of the shell
+$$ -- The process ID of the shell
+$! -- The process ID of the most recent background job
+$0 -- $0 is set to the name of the script
+$_ -- First command in a script, is the path/name of the script as invoked.
+Otherwise, it is the last parameter passed to the most recent command.
+
+functions
+myfunc() {
+   commands
+   more commands
+}
+#call the function
+myfunc
+
+demo 1
+car1 = 'A'
+var2 = 'B'
+myfunc() {
+   local vari='c'
+   var2 = 'D'
+   echo "Inside function car1: $var1 $var2: $var2"
+}
+echo "Before execution function var1;$var1 var2:$var2"
+myfunc
+echo "after executing function var1:$vsar1 var2:$var2"
+
+variable substitution
+a='5'
+b='10'
+c='0'
+eho 'Bash is only $1 days long'
+echo "BASH should be $2 days long"
+echo "I wish I spent $3 days in bash"
+./bash.sh 5 10 0 --outputs
+Bash is only 5 days long
+Bash should be 10 days long
+I wish I spent 0 days in bash
+
+md5sum exists
