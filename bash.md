@@ -60,10 +60,33 @@ find / -group root is finding anything in the root directory with the permission
 find / -type <d f p l>
 d for directory, f for file, p for pipe, l for symbolic links
 find / -type d -iname log | ls -l {} \; 2>/dev/null
-find / -atime 1 will find the last day accessed by a file with -ctime created -mtime modified
+find / -atime 1 will find the last day accessed by a file with -ctime created -mtime modified Goes by day, ie the 1 means 1 day
 find / -mmin 30 is the same as time but with minutes
 find / -executable ! -type d will find executable files
 find /var/log -iname *.log 2>/dev/null -printf "%i %f\n" | more this finds all case insensitive .log files %i is inode number and %f is file name
+MAC - Modified Accessed Changed
+-exec COMMAND -OPTIONS {} /; #execute COMMAND against every object (think foreach)
+-exec COMMAND -OPTIONS {} + #execute COMMAND against everything all at one
+
+tar -c create
+    -v verbost
+    -f file
+    -z gzip
+
+wc -l
+
+delete
+     rm - delete files
+     rmdir - delete directories
+
+touch
+      -d "2020-09-19 09:00:00" File 💯
+      -t [[CC]YY]MMDDhhmm[.ss]
+
+kill
+pkill
+kill -9
+killall
 
 grep
 You can utilize grep to compare files
@@ -85,6 +108,9 @@ relies on a character deliminator and cut itself will work on a tab, we can chan
 tail /etc/passwd | cut -d: -f1
 the -f stands for field, in this case showing the first field
 the -s only shows the lines that match the delimiter
+cat /etc/passwd | cut -d: -f1
+cut -d: -f1 /etc/passwd
+
 
 alias
 an alias is a different name that can be assigned to command
@@ -133,6 +159,8 @@ SSgt made this fat one-liner for the hosts on the watch floor
 cat hosts | awk -F: -v "awkuser=$user" -v "awkoffice=$office" 'BEGIN {OFS=":"} {$2=awkuser}{$4=awkoffice}{print $0}'
 cat hosts | awk -F. -v "awkip = $ip" 'BEGIN {OFS"."} {$2=awkip}{print $0}'
 "
+
+
 sort
 tail password | awk -F: '{print $3}' | sort -n
 sort                sorts content according to position on the ASCII table
@@ -202,5 +230,75 @@ echo "I wish I spent $3 days in bash"
 Bash is only 5 days long
 Bash should be 10 days long
 I wish I spent 0 days in bash
+a=$(b + c)
 
 md5sum exists
+
+Alternate answer for question 15
+find /bin /etc /var -maxdepth 3 ! -type p -exec md5sum {} > $HOME/demo/demo2/success 2>$HOME/demo/demo2/fails \;
+a=$(wc -l $HOME/demo/demo2/success | awk '{print $1}' )
+b=$(grep -c "Is a directory" $HOME/demo/demo2/fails )
+if [[ "$a" ]];
+       then
+               echo "Successfully hashed files: $a";
+               echo "Unsuccessfully Hashed Directories:" $b;
+       else
+               echo "oops";-maxdepth 3
+fi
+
+The other end thing like \; is +
+
+LOOPS
+x=0
+while [[ $x -le 10 ]] ; do
+    echo $x
+    x=$(($x+1))
+done
+for x in {0..10}; do
+>echo $x
+>done
+for x in {cosc,jcac,mct,'parris island'}; do
+>echo $x
+>done
+for x in $(cat /etc/passwd | awk -F: '{print $1}')
+         do echo $x is a user on this compooter
+done
+x=0
+while [[ $x -le 10 ]] ; do
+>echo $x
+>x=$(($x+1))
+>done
+
+for a in 1 2 3 4 5 6 7 8 9 10
+do
+    if [ $a == 5 ]
+    then
+      break
+    fi
+    echo Iteration is $a
+done
+which, route or ip route, tar, zip
+
+if [[ <CONDITION> ]]; then
+        commands
+elif [[ <CONDITION> ]]; then
+        commands
+fi
+
+
+Alternate Solution to 20
+find /etc -type f -exec stat -c '%a' {} /; > ./perms 2>/dev/null
+
+for x in $(cat ./perms); do
+        if [[ $x -le 640 ]]; then
+                echo "$x" >> ./low
+        elif [[ $X -ge 642 ]]; then
+                echo "$x" >> ./high
+        fi
+done
+
+echo "Files w/ Octal Perm Values 642+:"
+cat ./high | sort | uniq -c | sort -nr
+echo
+echo "File w/ Octal Perm Values 0-640:"
+cat ./low | sort | uniq -c | sort -nr
