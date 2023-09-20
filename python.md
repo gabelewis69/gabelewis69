@@ -1,7 +1,8 @@
 ssh to linux
 ssh student@10.50.23.212 -X
 -x is to have access to the linux apps, and password is password
-Windoes is 10.50.33.144
+Windows is 10.50.33.144
+xfreerdp /u:student /v:10.50.33.144 -dynamic-resolution +glyph-cache +clipboard
 To enter python it's python3
 python --version
 
