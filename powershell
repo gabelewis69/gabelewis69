@@ -1,0 +1,8 @@
+https://cted.cybbh.io/tech-college/pns/public/pns/latest/guides/ps_sg.html
+
+Powershell.exe is a wrapper for a .dll called system.management.automation.dll
+system.management.automation.dll
+powershell is based on the .net framework within microsoft
+everything is processed through system.management.automation.dll and is based on C#
+Powershell is on Linux, macOS, and windows
+We will only be using powershell on windows devices
