@@ -302,3 +302,76 @@ cat ./high | sort | uniq -c | sort -nr
 echo
 echo "File w/ Octal Perm Values 0-640:"
 cat ./low | sort | uniq -c | sort -nr
+
+Brace expansion is a mechanism by which arbitrary strings may be generated, for commands that will take multiple arguements. For the below examples, the first example is equivalent to the second command.
+mkdir $HOME 11{2..5}{3..6}
+
+Using find, find all files under the $HOME directory with a .bin extension ONLY.
+find $HOME -type f -name "*.bin" | awk -F/ 'BEGIN {OFS="/"} {$NF"";NF--; print}' | sort -u
+
+Write a bash script that will find all the files in the /etc directory, and obtains the octal permission of those files. The stat command will be useful for this task.
+files=$(find /etc -type f)
+a=$(stat --format="%n: %a" $files| cut -d: -f2 )
+for x in $a; do
+        if [[ x -ge 642 ]]; then
+                echo $x >> high.txt
+        elif [[ x -le 640 ]]; then
+                echo $x >> low.txt
+        fi
+done 
+echo 'Files w/ OCTAL Perm Values 642+:'
+cat high.txt | sort | uniq -c | sort -nr 
+echo ''
+echo 'Files w/ OCTAL Perm Values 0-640:'
+cat low.txt | sort | uniq -c | sort -nr
+
+Utilize Bash looping to iteratively create each user account and their directories.
+for users in {LARRY,CURLY,MOE}; do
+    mkdir $HOME/$users
+    dirs=\$HOME/$users
+    ids=$(cat $HOME/$users.txt)
+    echo "$users:x:$ids:$ids:root:$dirs:/bin/bash" >> $HOME/passwd
+done
+
+Create the following files in a new directory you create $HOME/ZIP:
+
+    file1 will contain the md5sum of the text 12345
+    file2 will contain the md5sum of the text 6789
+    file3 will contain the md5sum of the text abcdef
+mkdir $HOME/ZIP
+echo 12345 | md5sum | cut -d' ' -f1 > $HOME/ZIP/file1
+echo 6789 | md5sum | cut -d' ' -f1 > $HOME/ZIP/file2
+echo abcdef | md5sum | cut -d' ' -f1 > $HOME/ZIP/file3
+cd $HOME/ZIP
+zip -j file.zip file1 file2 file3
+tar -czvf file.tar.gz file.zip
+
+Write a script that determines your default gateway ip address. Assign that address to a variable using command substitution. 
+IP=$(ip route | awk '/default/ { print $3 }')
+PING=$(which ping)
+C=$($PING -c 6 $IP | grep from* | wc -l)
+if [[ $C -eq 0 ]]; then
+        echo "failure";
+else
+        echo "successful";
+fi
+
+Design a script that detects the existence of directory: $HOME/.ssh
+if [[ -d $HOME/.ssh ]]; then
+    cp -a $HOME/.ssh $HOME/SSH
+else
+    echo 'Run ssh-keygen';
+fi
+
+Write a script which will find and hash the contents 3 levels deep from each of these directories: /bin /etc /var
+a=$(find /bin /etc /var -maxdepth 3 ! -type p 2>/dev/null)
+md5sum $a > hashes 2>badhash
+success=$(grep -c '/' hashes)
+fails=$(grep -c 'directory' badhash)
+echo 'Successfully Hashed Files:' $success
+echo 'Unsuccessfully Hashed Directories:' $fails
+
+
+ls -l $dirname | wc -l
+
+cat $src | grep -v $match > $dst
