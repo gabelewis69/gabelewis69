@@ -1,4 +1,6 @@
 https://cted.cybbh.io/tech-college/pns/public/pns/latest/guides/ps_sg.html
+xfreerdp /u:student /v:10.50.33.144 -dynamic-resolution +glyph-cache +clipboard
+
 
 Powershell.exe is a wrapper for a .dll called system.management.automation.dll
 system.management.automation.dll
@@ -6,3 +8,40 @@ powershell is based on the .net framework within microsoft
 everything is processed through system.management.automation.dll and is based on C#
 Powershell is on Linux, macOS, and windows
 We will only be using powershell on windows devices
+verb noun, tab complete, F8 will run whatever you have highlighted
+There's many ways to skin a cat in powershell
+Powershell itself runs in itself but can use external applications
+case insensitive even in linux, cmdlet then parameters with arguments
+
+Get-Help
+Update-Help
+THE PRETEST IS A LOT EASIER THAN THE TEST ouch
+Get-Help Get-Command gives you help on get-command, it goes a lot more in depth and you can get
+help on pretty much any of the arguments and parameters. A square bracket argument is mandatory?
+Get-Help Get-Command -ShowWindow will output everything into a separate window 
+GySgt's go to is get-help get-command -online, way more intuitive than past scripting languages
+Get-Help *net* will show anything involving net in it. Gunny google will always be your friend
+Powerhell also provides about pages, using get-help about_*, about_Script_blocks
+
+Alias's
+An alias is just a different name for something
+User-defined and enviornmental. 
+$alias:dir is Get-ChildItem
+Get-Alias -Definition get-childitem
+Don't use alias's too much it will waste time, and if you shorthand too much some people don't know
+set-alias edit notepad.ese
+set-alias <name of alias> <what it's running>
+remove-item alias:edit
+User-defined alias's are not persistent through shut downs, unless you use powershell profiles
+Get-Alias will give you all the alias's
+
+Object based
+Every object has a characteristic and method, what it is and what it does
+(Get-Process).ProcessName
+(Get-Process -Name notepad).Kill()
+Get-Process | Get-Member is how you get each type of property information
+Get-Process is an array of information, using foreach and using a pipeline has pipeline variables
+$_ is the pipeline variable 
+Get-Service | Format-Table -Autosize or -wrap if you can't see everything
+If you use fruit-host it goes straight to the host and that's it, if you want to have it be further 
+manipulated by the pipeline use fruit-output. Fruit-host will not be sorted while fruit-output will
