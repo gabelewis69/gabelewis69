@@ -13,7 +13,7 @@ There's many ways to skin a cat in powershell
 Powershell itself runs in itself but can use external applications
 case insensitive even in linux, cmdlet then parameters with arguments
 
-Get-Help
+Get-Help-------------------------------------------------------------------------------------------
 Update-Help
 THE PRETEST IS A LOT EASIER THAN THE TEST ouch
 Get-Help Get-Command gives you help on get-command, it goes a lot more in depth and you can get
@@ -23,7 +23,7 @@ GySgt's go to is get-help get-command -online, way more intuitive than past scri
 Get-Help *net* will show anything involving net in it. Gunny google will always be your friend
 Powerhell also provides about pages, using get-help about_*, about_Script_blocks
 
-Alias's
+Alias's-------------------------------------------------------------------------------------------
 An alias is just a different name for something
 User-defined and enviornmental. 
 $alias:dir is Get-ChildItem
@@ -35,13 +35,236 @@ remove-item alias:edit
 User-defined alias's are not persistent through shut downs, unless you use powershell profiles
 Get-Alias will give you all the alias's
 
-Object based
+Object based-------------------------------------------------------------------------------------------
 Every object has a characteristic and method, what it is and what it does
 (Get-Process).ProcessName
 (Get-Process -Name notepad).Kill()
 Get-Process | Get-Member is how you get each type of property information
-Get-Process is an array of information, using foreach and using a pipeline has pipeline variables
+Get-Process is an ARRAY of information, using foreach and using a pipeline has pipeline variables
 $_ is the pipeline variable 
 Get-Service | Format-Table -Autosize or -wrap if you can't see everything
 If you use fruit-host it goes straight to the host and that's it, if you want to have it be further 
 manipulated by the pipeline use fruit-output. Fruit-host will not be sorted while fruit-output will
+
+Variables-------------------------------------------------------------------------------------------
+Something that holds a value and you can change it 
+system variables and user defined variables 
+You define variables with $a = a. You have to always have the $ on variables
+user defined variables are also not persistent and have to be replace after reboot
+$ IS ALWAYS USED, even using statements such as $True or $False. 
+The difference between $_ and $PSItem is that $PSItem is more consistent in a script
+$Matches is a Hash Table of RegEx matches
+
+Data Types-------------------------------------------------------------------------------------------
+The important part is understanding what you can do with the different types of data. 
+If you do (Get-Process).gettype will tell you what type of data you are getting, or the other examples
+If you just type out a variable like $x then it will print 10, if $x = 10
+$x, $y, $z = "this", "that", "third"
+You have to use " because ' takes literals not variables
+` is the escape character in powershell
+
+Arrays-------------------------------------------------------------------------------------------
+$myarray = 'Hello', 12, (Get-Date), $true, 77.65
+$array3 = @() is how you set up an empty array that can be used for later
+Arrays also use index positions and similar calling such as most languages $array[1]
+to use a range you use $array[1..3] if you want to print separate numbers $array[1,3]
+Jagged arrays
+$jagarray = "joe", "jim", "jan", (1, ('apple', 'pear'), 3), "jay"
+array within array 
+Multidimensional Array
+$TargetingArray = @a(
+  (35.7219, 51.3347, "Tehran"),
+  (39.9042, 116.4074, "Bejing"),
+  (39.0738, 125.8198 "Pyongyang"),
+  (33.5138, 36.2765, "Damascus")
+)
+
+Hash Table-------------------------------------------------------------------------------------------
+Key value pairs
+empty hash table $MyList=@{}
+
+ First = "John"; Last = "Williams"; ID = "001"; Job = "Software Developer"; Username = "jwilliams002"
+ First = "John"; Last = "Williams"; ID = "002"; Job = "Web Developer"; Username = "jwilliams002"
+ First = "Alex"; Last = "Moran"; ID = "003"; Job = "Software Developer"
+
+Script Block -------------------------------------------------------------------------------------------
+$date = {(get-date).Second}
+& $date
+Script blocks are variables assigned to a script, meaning you can't just add $a and $b if $b={1+1},
+you have to do $a+=&$b in order to do that. 
+These are used for basic stuff
+
+Where-Object -------------------------------------------------------------------------------------------
+-Like in powershell accepts wild cards for your arguments
+-like uses objects -match uses regex
+
+Get-Unique
+Same as bash
+Sort-Object 
+Same as bash
+Measure-Object
+Calculates the numeric properties of objects
+.count does everything in the direcctory even if it's empty
+If you're working on an array make sure you declare it as one or the information will be fucked
+Create Custom Object - Advanced
+$MyTruck = New-Object Object
+Add-Member -MemberType NoteProperty -Name Color -Value Red -InputObject $MyTrust
+Add-Member -MemberType NotePorperty -in $Mytruck -Name Make -Value Ford
+Add-Member -InputObject $MyTruck NoteProperty Model "F-150 Raptor"
+$MyTruck | Add-Member NoteProperty cab SuperCrew
+Add-Member -MemberType ScriptMethod -InputObject $Mytruck -Name Drive -Value { "Going on a roadtrip" }
+
+$Soldier = [PSCustomObject]@{
+  "FirstName" = "Joe"
+  "LastName" = "Snuffy"
+  "MilitaryRank" = "SSG"
+  "MOS" = "17C"
+  "Position" = "Host Analyst"
+}
+
+
+If you're ever on courier duty they're gonna hand you some top secret folder with a big stamp on the outside
+that says Semper Files
+
+
+
+Day 1 Commands
+__________________________________________________________________________________________________________
+Get-Command -CommandType Cmdlet
+get-verb
+Get-Command -Verb get
+Get-Command -Noun 
+
+get-help get-command -online
+get-help *net*
+get-help about_*
+get-help about_Script_Blocks
+Get-Process | Get-Member
+(Get-Process -Name notepad).Kill()
+Get-Process | Get-Member -MemberType Properties
+Get-Process | Format-Table Name, id
+Get-Process | Format-List *
+
+Get-Service | Format-Table -Wrap
+fruit-host | sort
+fruit-output | sort
+
+get-help *process*
+get-service
+get-help *write*
+write-host
+get-help *output*
+get-help *text*
+get-help variable
+get-alias -Definition get-help
+get-help read-host
+Get-Process
+get-process s*
+$alias:gal
+Get-NetFirewallRule
+Set-Alias -name gh -value Get-Help
+
+get-alias cls
+$x, $y, $z = "this", "that", "third"
+$name = "george"
+"Hello my name is $name"
+$hour=(get-date)
+$env:OS
+$myarray = 'Hello', 12, (Get-Date), $true, 77.65
+$x = Get-Process
+$y = "this"
+$y -is [array]
+$x.Count
+$array = 1..4
+$array3 = @()
+$a= 1..6
+$a += 7,8,9
+
+$c= 8
+$c += 1
+$jagarray = "joe", "jim", "jan", (1, ('apple', 'pear'), 3), "jay"
+$jagarray[3][1][0]
+$Mylist = @{First = "george"; Last ="lucas"; mid = "yes"}
+$Mylist["First"]
+$Mylist.last
+$Mylist.Keys
+$Mylist.Values
+$Mylist[$Mylist.Keys]
+$Mylist.Date = Get-Date
+$Mylist["Location"] = "Germany"
+$Mylist.Remove("Date")
+ | 
+$list = @{ element1 = 5; array1 = 1..5; array2 = 6, 7, 8}
+
+__________________________________________________________________________________________________________
+
+Day 2 Commands
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+__________________________________________________________________________________________________________
+##########################################################################################################
+
+
+
+
+Variables through Pipeline
+__________________________________________________________________________________________________________
+$var1 = Get-Random -Maximum 50 -Minimum 25
+$var2 = Get-Random -Maximum 10 -Minimum 1
+$sum = $var1 + $var2
+$sub = $var1 - $var2
+$prod = $var1 * $var2
+$quo = $var1 / $var2
+write-output "$var1 + $var2 = $sum"
+OR
+"{0} + {1} {2}" -f $var1, $var 2, $sum
+write-output "$var1 - $var2 = $sub"
+write-output "$var1 * $var2 = $prod"
+write-output "$var1 / $var2 = $quo"
+
+$min = Get-Random -Maximum 0 -Minimum -10
+$max = Get-Random -Maximum 20 -Minimum 1
+$array = @($min..$max)
+$array2 = @($max..$min)
+OR
+[array]::Reverse($array)
+
+$employee1 = @{ First = "Mary"; Last = "Hopper"; ID = "001"; Job = "Software Lead"}
+OR
+$employee1=[ordered]@{}
+$employee2 = @{ First = "John"; Last = "Williams"; ID = "002"; Job = "Web Developer"}
+$employee3 = @{ First = "Alex"; Last = "Moran"; ID = "003"; Job = "Software Developer"}
+$employee1.Add("Username", "mhopper001")
+OR
+$employee1.Username="mhopper001"
+$employee2.Add("Username", "jwilliams002")
+$employee3.Add("Username", "amoran003")
+$employee1["Status"] = "Management"
+$employee2["Status"] = "Intermediate"
+$employee3["Status"] = "Entry Level" 
+
+Get-Process | select name,starttime | Sort-Object -Property {$_.StartTime } | Select-Object -First 1 -Last 1
+$DayOfWeek=(get-date).DayOfWeek
+Get-Hotfix | Sort-Object -Property {$_.InstalledOn} | Select-Object -Property InstalledOn,HotFixID
+Get-Hotfix | Sort-Object -Property {$_.Description} | Select-Object -Property Description,HotFixID,InstalledOn
+__________________________________________________________________________________________________________
