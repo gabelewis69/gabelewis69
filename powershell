@@ -262,10 +262,100 @@ ________________________________________________________________________________
 
 Day 2 Commands
 
+$line1 = 'Do you have model number: MT5437 for john.doe@sharklasers.com?'
+$pattern = '[A-Za-z]{2}\d{2, 5}'
+if($line1 -match $pattern){$matches[0]}
+else{ "A model number wasn't found"}
 
 
 
+$array4 = @("notepad", "msedge", "mspaint")
+$array2=@(Start-Process notepad.exe | Start-Process msedge | Start-Process mspaint) 
+Get-process $array4
+Stop-process -name $array4
+OR
+$procs = "notepad", "msedge", "mspaint"
+$procs | % {Start-Process $_}
+Get-Process
+$procs | ForEach-Obect { Stop-Process $_ }
 
+
+
+$array4 = @("notepad", "msedge", "mspaint")
+$array2=@(Start-Process notepad.exe | Start-Process msedge | Start-Process mspaint) 
+$array3=@(Get-process $array4).id | Out-File -FilePath C:\Users\student\Desktop\procs.txt
+Stop-process -Id $array3
+
+
+
+$array4 = @("notepad", "msedge", "mspaint")
+$array2=@(Start-Process notepad.exe | Start-Process msedge | Start-Process mspaint) 
+Get-process $array4 | select-object -Property starttime, id, processname, CPU, NPM, PM
+
+$MyComputer = [PSCustomObject]@{
+    "ComputerName" = "WIN-OPS"
+    "OperatingSystem" = "Microsoft Windows 10 Pro"
+    "Version" = "10.0.19045"
+    "Manufacturer" = "OpenStack Foundation"
+    "Disks" = "\\WIN-OPS\root\cimv2:Win32_LogicalDisk.DeviceID=`"C:`",\\WIN-OPS\root\cimv2:Win32_LogicalDisk.DeviceID=`"D:`""
+}
+$MyComputer2 = [PSCustomObject]@{
+    "ComputerName" = $compinfo.Name
+    "OperatingSystem" = "Microsoft Windows 10 Pro"
+    "Version" = $osinfo.Version
+    "Manufacturer" = $biosinfo.Manufacturer
+    "Disks" = $diskinfo.Rank
+}
+$compinfo = Get-WmiObject Win32_ComputerSystem
+$osinfo = Get-WmiObject Win32_OperatingSystem
+$biosinfo = Get-WmiObject Win32_BIOS
+$diskinfo = Get-WmiObject Win32_LogicalDisk
+
+$teams = "Tigers",  "Pistons", "Red Wings", "Lions"
+ForEach($team in $teams){"Detroit $team"}
+
+$num = 0
+while ($num -lt 999) {
+$num
+$num++
+}
+
+
+do {
+$ans = Read-Host -Prompt "Which character is the best?"
+    switch($ans) {
+        "The Hulk" {"You are correct"}
+        "The Flash" {"WRONG!"; break}
+        "Ironman" {"WRONG AGAIN!"; break}
+        "Super,am"{"You couldn't be any more wrong than you are"; break}
+        default {"It is definitely The Hulk, hands down"; break}
+        }
+ }while($ans-ne "The Hulk")
+
+$date = {(get-date).Second}
+& $date
+
+$a = 1
+$b={1+1}
+
+$a+= &$b
+$a
+
+$a+= invoke-command $b
+$a
+
+Get-ChildItem | Format-Table -GroupBy Extension
+
+Get-Service | Sort-Object Status | ft -Groupby status
+
+Get-ChildItem | Group-Object Extension | Sort-Object Count -Descending
+
+Get-Service | Select-Object -ExpandProperty Name
+Get-Service | Where-Object{$_.Status -eq 'running'}
+Get-ChildItem *.txt | Where-Object{$_.Length -gt 100}
+Get-Process | Where-Object {$_.Company -like 'micro*'} | Format-Table Name, Description, Company
+Get-ChildItem | Measure-Object Length
+(Get-ChildItem).count
 
 
 
