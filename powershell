@@ -126,7 +126,69 @@ $Soldier = [PSCustomObject]@{
 If you're ever on courier duty they're gonna hand you some top secret folder with a big stamp on the outside
 that says Semper Files
 
+Comparison Operators -------------------------------------------------------------------------------------------
+-match uses regex
+Will return the actual
+-like uses objects and can use wildcards
+1,2,3 -eq 2 #will return everything that matches
+2 
+2 -eq 1,2,3
+False
+2 -ne 1,2,3
+True
+"PowerShell" -like "*shell"
+True
+"PowerShell", "Server" -like "*shell"
+PowerShell
+$text = 'Here is the model number: MO5364'
+$pattern = 'MO(\d{2})(\f{2})'
+$text -match $pattern
+$Matches[0] will return MO536
 
+$fruit = 'apple', 'orange', 'pear', 'tomato'
+$fruit -contains 'tomato'
+#returns True
+
+
+Conditional Statements -------------------------------------------------------------------------------------------
+$x = 1
+if($x -gr 10){"$x is larger than 10"}
+  else{
+          "$x is smaller than 10"
+          }
+Loops -------------------------------------------------------------------------------------------
+While loops
+
+Do loops
+
+ForEach loop
+
+ForEach-Object has to have information piped into it.
+$nums = 1,2,3,4,5
+$nums | foreach-object{$_ * 2}
+
+Get-Process | Select-Object -First 10 | ForEach-Object {_.Name } | ForEach_Object { $_.ToUpper() }
+
+ForEach ($item in gci C:\ -recurse){$item.name}
+
+PS C:\windows\system32> $teams = "Tigers",  "Pistons", "Red Wings", "Lions"
+ForEach($team in $teams){"Detroit $team"}
+Detroit Tigers
+Detroit Pistons
+Detroit Red Wings
+Detroit Lions
+
+Do Until loop
+do {
+$num 
+$num++
+}until($num -gt 3)
+
+For Loop
+for (initialization; condition; increment)
+{
+  code block to be executed.
+}
 
 Day 1 Commands
 __________________________________________________________________________________________________________
