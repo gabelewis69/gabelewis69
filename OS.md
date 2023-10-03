@@ -51,3 +51,57 @@ $wc.DownloadFile($url, $output)
 
 (New-Object System.Net.WebClient).DownloadFile($url, $output)
 Might have to use this
+
+
+Day 2 - ADS and Registry
+_______________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+Day 3 - Linux
+_______________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+Day 4 - Windows Boot Process
+_______________________________________________________________________________________________________________________
+Turn on Computer
+1. POST (Power On Self Test)
+2. BIOS (Basic Input Output System)
+3. UEFI *newer take on BIOS* (Unified Extensible Firmware Interface)
+   Boots up faster than BIOS, allows to have 9Zetabytes which is 9 Billion Terrabytes
+winload.exe is BIOS, winload.efi is UEFI
+Anything non-essential is loaded in the Ntoskrnl.exe
+smss.exe (Session Manager SubSystem) starts csrss.exe which starts each User Subsytem
+Users cannot interact with kernel mode processes
+
+
+In cmd prompt
+bcdedit /export bcdbackup
+bcdedit /set {current} description "Windows XP"
+bcdedit /create {ntldr} 
+bcdedit /delete {ntdlr} /f
+
+
+
+
+Day 5 - Linux Boot Process
+_______________________________________________________________________________________________________________________
+
+
+
+
+
