@@ -141,3 +141,7 @@ $wc = new-object System.Net.WebClient
 $wc.DownloadFile("https://download.sysinternals.com/files/SysinternalsSuite.zip", "$pwd\SysinternalsSuite.zip")
 Expand-Archive SysinternalsSuite.zip 
 
+sc showsid
+asInvoker
+
+
