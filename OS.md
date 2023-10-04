@@ -109,10 +109,26 @@ Look in the book chucklenuts
 
 Day 6 - Windows Process Validity / User Account Control / SysInternals
 _______________________________________________________________________________________________________________________
+Process Validity
+The importance of knowing when processes need to run, being able to tell if a process is a fake or not
+Like how solar winds fucked everyone with a malware inside of the update
+ALWAYS try to find persistence 
+netstat -anob | more
+never only trust one command, it will not show you everything
+There's usually a GUI that will go along with whatever you're trying to see
+Make sure processes are running from the right places
+i.e. calc.exe running from Program Files instead of System32
 
+UAC (User Account Control)
+It is the "Do you want so and so to make changes to your computer?" Or run as admin
 
-
-
-
-
+SysInternals
+basically power user administrative tools 
+net use comes in handy for a lot of things
+commands
+net use * http://live.sysinternals.com
+New-PSDrive -Name "SysInt" -PSProvider FileSystem -Root "\\live.sysinternals.com\Tools"
+$wc = new-object System.Net.WebClient 
+$wc.DownloadFile("https://download.sysinternals.com/files/SysinternalsSuite.zip", "$pwd\SysinternalsSuite.zip")
+Expand-Archive SysinternalsSuite.zip 
 
