@@ -119,15 +119,24 @@ There's usually a GUI that will go along with whatever you're trying to see
 Make sure processes are running from the right places
 i.e. calc.exe running from Program Files instead of System32
 
+
+
 UAC (User Account Control)
 It is the "Do you want so and so to make changes to your computer?" Or run as admin
+commands 
+./sigcheck -m C:\Windows\System32\slui.exe
+./sigcheck -m C:\windows\regedit.exe
+./strings –s c:\windows\system32\*.exe | findstr /i autoelevate
+
+
 
 SysInternals
 basically power user administrative tools 
 net use comes in handy for a lot of things
-commands
+commands to get the tools
 net use * http://live.sysinternals.com
 New-PSDrive -Name "SysInt" -PSProvider FileSystem -Root "\\live.sysinternals.com\Tools"
+Alt.
 $wc = new-object System.Net.WebClient 
 $wc.DownloadFile("https://download.sysinternals.com/files/SysinternalsSuite.zip", "$pwd\SysinternalsSuite.zip")
 Expand-Archive SysinternalsSuite.zip 
