@@ -193,3 +193,16 @@ whatever task the user wants to schedule
 cat /etc/crontab
 first numberblock is minute, hour, day of month, day of week
 always try to cat, ls, or add a sudo to read these
+CRON IS A PERSISTENCE MECHANISM
+OR A LAUNCH MECHANISM
+
+Processes and Proc Dir
+Proc Dir is another place to enumerate processes
+sudo lsof | tail -30
+sudo lsof -c sshd
+ sudo lsof -i udp:123
+
+ FOR EVIL 
+ cat /etc/cron.d/mdadm
+ netstat -ano
+ 
