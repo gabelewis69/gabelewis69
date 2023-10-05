@@ -143,5 +143,53 @@ Expand-Archive SysinternalsSuite.zip
 
 sc showsid
 asInvoker
+sigcheck
 
 
+
+Day 7 Linux Process Validity
+_______________________________________________________________________________________________________________________
+ps -elf
+ps --pid 1
+top (real time process listing)
+ps -elf --forest
+Kernel space is separated from the user space to protect the system
+EUID has rights, RUID is the owner
+kill is a signal
+SIGSTOP, SIGTERM, SIGCHILD, SIGPIPE, SIGIO, etc.
+kill -l
+a daemon is just a background process
+disown -a && exit #Close a shell/terminal and force all children to be adopted
+A zombie is dead but hasn't been fully reaped by the parent process
+kill -18 *zombiePPID*
+All daemons techincally are orphans, but all orphans are not daemons
+Orphan processes can be persistent
+
+On SysV
+service <servicename> status/start/stop/restart
+
+On SystemD
+systemctl list-units --all
+systemctl status <servicename.service>
+systemctl status <PID of service>
+systemctl start/stop/restart <servicename.service>
+
+Job Control
+jobs
+kill -9 %1
+
+Cron Jobs
+The cron daemon checks /var/spool/cron, /etc/cron.d, and /etc/crontab STOMP STOMP STOMP
+User and System
+System is in /etc/crontab
+Run backups, rotate logs
+User cron jobs
+User is in /var/spool/cron/crontabs/
+whatever task the user wants to schedule
+    crontab -u [user] file This command will load the crontab data from the specified file
+    crontab -l -u [user] This command will display/list user’s crontab contents
+    crontab -r -u [user] This Command will remove user’s crontab contents
+    crontab -e -u [user] This command will edit user’s crontab contents
+cat /etc/crontab
+first numberblock is minute, hour, day of month, day of week
+always try to cat, ls, or add a sudo to read these
