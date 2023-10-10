@@ -206,3 +206,31 @@ sudo lsof -c sshd
  cat /etc/cron.d/mdadm
  netstat -ano
  
+
+
+Day 8 Windows Auditing & Logging
+_______________________________________________________________________________________________________________________
+
+Get-LocalUser | select name,sid
+Will NOT show domain users
+
+get-wmiobject win32_useraccount | select name,sid
+Will show domain and local users
+ 
+Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count\"
+The encoding is in ROT13
+
+Get-ItemProperty "Registry::hkey_users\*\software\microsoft\windows\currentversion\explorer\userassist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count\"
+
+LOOK AT 3.1 IN THE FG FOR INFO ON WHERE TO LOOK IN REGEDIT 
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\bam\State\UserSettings #On 1809 and Newer
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\bam\UserSettings #On 1803 and below
+get-item HKLM:\system\currentcontrolset\services\bam\UserSettings\*
+
+Get-ComputerInfo | select osname,osversion
+
+Get-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Services\bam\UserSettings\S-1-5-21-2881336348-3190591231-4063445930-1004
+
+Get-Content 'C:\$RECYCLE.BIN\S-1-5-21-2881336348-3190591231-4063445930-1003\$RUZK3G5.txt'
+
