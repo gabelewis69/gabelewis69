@@ -265,3 +265,42 @@ ls
 Answer Key Bullshit
 C:\TempContents> cat .\17249efc-482e-4ab4-ba5d-bda14bbafb81.ps1
 PS C:\TempContents> cat \windows\system32\artifacts.ps1
+
+
+
+Day 9 Linux Auditing & Logging
+_______________________________________________________________________________________________________________________
+All logging is saved on a physical hardrive space, biggest issue with logging is finding a good balance between information and efficiency. 
+
+human-readable text documents within /var/log
+configured using files in /etc/rsyslog/
+
+cat /etc/rsyslog.d/50-default.conf
+-/var/log/syslog is a catch all
+/var/log/mail.err is logging that severity code and anything more critical
+IF THERE IS A ! IN FRONT OF THE ERR THEN IT IS THE OPPOSITE AND ANYTHING LESS CRITICAL
+
+grep timesyncd /var/log/syslog 
+log rotations are backups in linux machines
+cat /etc/logrotate.conf
+ls -l /var/log
+when backed up the files are zipped to save space
+
+Any logs having to do with logins and authentication attempts. . /var/log/auth.log - Authentication related events . /var/run/utmp - Users currently logged in .. Not in human readable format. Must use last command . /var/log/wtmp - History file for utmp .. Not in human readable format. Must use last command . */var/log/btmp - Failed login attempts
+only root level permission users can look at /var/log/btmp, there is also /var/run/utmp and a /var/run/wtmp.
+dmesg is a kernel message
+
+
+
+Location: All logs are in /var, most are in /var/log
+Config File: /etc/rsyslog.conf
+Service: /usr/sbin/rsyslogd
+
+journalct --list-boots
+all logs between boot and run
+journalctl -b 321 
+journalctl -u ssh.service
+might have to use systemctl to find the units for journalctl -u
+
+
+
