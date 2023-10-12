@@ -304,3 +304,19 @@ might have to use systemctl to find the units for journalctl -u
 
 
 
+
+Day 10 Windows Memory Analysis
+_______________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
