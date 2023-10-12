@@ -305,9 +305,24 @@ might have to use systemctl to find the units for journalctl -u
 
 
 
-Day 10 Windows Memory Analysis
+Day 10 Windows Memory Analysis & Active Directory
 _______________________________________________________________________________________________________________________
+Volatility
+Most Volatile - Cache maybe RAM
+Least Volatile - Backups or other HDD type devices
 
+Volatility is a tool, with the Python being the largest, and the standalone just being a binary
+Volatility uses profiles to parse through data, because no machine is the same
+
+Memory dumps are not human readable, use strings
+
+ 
+ PERSISTENCE
+ Registries
+ Malicious Processes 
+ Scheduled Processes
+ Services
+ 
 
 
 
