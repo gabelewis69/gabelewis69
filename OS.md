@@ -332,13 +332,13 @@ ________________________________________________________________________________
 Windows  
 
 Ports: get-nettcpconnection, netstat -ano -anob, tcpview.exe
-   sus ports: patterns, 4444, 6667, etc
+   sus ports: patterns, 4444, 6667, etc OR CHECK IANA.ORG
    
 Processes: get-process, procmon.exe, tasklist, task manager
    sus processes: system windows processes running out of wrong directory, misspelling in standard processes
 
-Persistence: get-scheduledtask,  
-   Powershell profiles, registry run keys, scheduled tasks, autorun 
+Persistence: get-scheduledtask, reg query, regedit, ps-provider, schedtask, $psprofile (understand the precedence, and why), use get-content on the profile
+   Powershell profiles, registry run keys (run/runonce), scheduled tasks, autorun 
 
 Artifacts: logs that applications create that are left behind, like browser history, bam, and prefetch
    bam, user assist, jump list, etc (windows auditing logging) 
@@ -354,8 +354,11 @@ Ports: netstat -ano -anop -ltup
 Processes: ps -elf, top, htop
    sus processes, running in wrong directory, misspelled
 
-Persistence: 
-   /etc/profile, bash profile, cron jobs
+Persistence: cat /etc/crontab
+   /etc/profile, .bash_profile, system profile, user profile, cron jobs
+
+
+
 cat /etc/shadow
 sudo !!   #this is a shortcut to run the previous command with sudo
 
