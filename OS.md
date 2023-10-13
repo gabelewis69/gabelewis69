@@ -1,6 +1,7 @@
 https://os.cybbh.io/public/os/latest/index.html
 CTFd Activities
 http://10.50.24.129:8000/
+http://10.50.20.125:8000/challenges
 15 is my stack number and 10.50.38.186
 The XX on the stacks is your number so for me 10.15.0.4 for Workstation 2
 Color coded for a reason, don't be stupid
@@ -325,13 +326,38 @@ Memory dumps are not human readable, use strings
  
 
 
+Day 11 Review
+_______________________________________________________________________________________________________________________
+
+Windows  
+
+Ports: get-nettcpconnection, netstat -ano -anob, tcpview.exe
+   sus ports: patterns, 4444, 6667, etc
+   
+Processes: get-process, procmon.exe, tasklist, task manager
+   sus processes: system windows processes running out of wrong directory, misspelling in standard processes
+
+Persistence: get-scheduledtask,  
+   Powershell profiles, registry run keys, scheduled tasks, autorun 
+
+Artifacts: logs that applications create that are left behind, like browser history, bam, and prefetch
+   bam, user assist, jump list, etc (windows auditing logging) 
+Powershell commands:
+   get-childitem, get-item, get-itemproperty, get-property
 
 
+Linux
 
+Ports: netstat -ano -anop -ltup
+   sus ports: patterns, 4444, 6667, etc
 
+Processes: ps -elf, top, htop
+   sus processes, running in wrong directory, misspelled
 
+Persistence: 
+   /etc/profile, bash profile, cron jobs
+cat /etc/shadow
+sudo !!   #this is a shortcut to run the previous command with sudo
 
-
-
-
+ls -l to view permissions
 
