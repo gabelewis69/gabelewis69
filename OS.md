@@ -366,3 +366,4 @@ ls -l to view permissions
 
 10.50.44.63 for linux with ssh
 10.50.25.2 for windows with xfreerdp
+http://10.50.20.125:8000/challenges
