@@ -364,3 +364,5 @@ sudo !!   #this is a shortcut to run the previous command with sudo
 
 ls -l to view permissions
 
+10.50.44.63 for linux with ssh
+10.50.25.2 for windows with xfreerdp
