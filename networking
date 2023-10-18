@@ -23,3 +23,5 @@ Common Ethertypes controlled by IANA.org:
 
         0x8100 - VLAN Tagging 802.1q
 
+The default value of the IHL is 5. but why? 
+20B or 160b because it is broken into words (32b) making it 5
