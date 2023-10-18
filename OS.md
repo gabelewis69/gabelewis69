@@ -361,7 +361,7 @@ Persistence: cat /etc/crontab
 
 cat /etc/shadow
 sudo !!   #this is a shortcut to run the previous command with sudo
-
+sudo cat /var/spool/cron/crontabs/root
 ls -l to view permissions
 
 10.50.44.63 for linux with ssh
