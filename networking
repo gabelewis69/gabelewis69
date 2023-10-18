@@ -1,1 +1,25 @@
 https://net.cybbh.io/public/networking/latest/index.html
+
+Less learning how to directly defend the network and more of the network at basic level
+
+a hex character is a nibble or 4 bits
+2 hex characters is a byte
+2 half words are a word
+a long word is two words 
+a quad word is two long words
+
+Communication happens through encapsulation and decapsulation depending on which layer of the OSI model it is going through
+Looking at the graph there are different examples of which layers of the OSI model certain applications work through
+Data link sub-layers MAC and LLC 
+The destination is sent first over ethernet because when the frames are going through switches it makes it faster, because they don't need a source just a destination
+
+Common Ethertypes controlled by IANA.org:
+
+        0x0800 - IPv4
+
+        0x0806 - ARP
+
+        0x86DD - IPv6
+
+        0x8100 - VLAN Tagging 802.1q
+
