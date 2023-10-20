@@ -186,18 +186,81 @@ sudo tcpdump -i eth0 -XXvvn '(not tcp port 22) && (udp port 68)'
 sudo tcpdump -i eth0 -XXvvn 'src host 10.10.0.40 && not tcp port 22'
 sudo tcpdump -XXvvnr /home/activity_resources/pcaps/Xtra.pcap
 
-when trying to filter for the DSCP multiply it by 4, which is why ip[1]&0xFC=112 is true
+when trying to filter for the DSCP multiply it by 4, which is why  is true
 ip[6:2] & 0x1FFF !=0
 ip[12:4] is for source ip addresses
 ip[16:4] is for destination ip address
 ip[12:4]=0x0A0A2801
 ip[12:4]&0xFFFFFF00=0x0A0A2800 this works as a subnet mask 
 
-question 2
+
+Ipv6 and 4 with ttl less than 64
+ip[8]<=64||ip6[7]<=64
+
+Don't fragment bit
 ip[6]&0x40 = 0x40
 
-question 3
-tcp[0:2]>0x400
+Transport higher than 1024
+tcp[0:2]>0x400||udp[0:2]>0x400
 
-question 4
+all packets with the udp protocol
+ip[9]=0x11||ip6[6]=0x11
+
+IP ID field of 213
+ip[4:2]=213
+
+Vlan tag
+ether[12:2]=0x8100
+
+question DNS
+tcp[2:2]=0x40||udp[2:2]=0x40||tcp[0:2]=0x40||udp[0:2]=0x40
+
+initial packet from tcp
+tcp[13]=0x02
+
+response packets from servers
+tcp[13]=0x12
+
+response packets from a server with closed tcp ports
+tcp[13]=0x04
+
+tcp and udp to well known ports
+tcp[2:2]<1024||udp[2:2]<1024
+
+HTTP
+tcp[0:2]=80||tcp[2:2]=80
+
+telnet traffic
+tcp[0:2]=23||tcp[2:2]=23
+
+arp traffic
+ether[12:2]=0x0806
+
+Evil bit
+ip[6]&0x80=0x80
+
+CHAOS
+ip[9]=0x10
+
+DSCP field of 37
+ip[1]&0xFC=0x94
+
+Traceroutes
+ip[8]=1&&(ip[9]=0x11||ip[9]=0x01)
+
+URG flag not set and pointer has a value
+tcp[13]&0x20=0&&tcp[18:2]>0
+
+TCP null scan to host 10.10.10.10
+tcp[13]=0&&ip[16:4]=0x0A0A0A0A0A
+
+Vlan hopper
+ether[12:4]&0xffff0fff=0x81000001&&ether[16:4]&0xffff0fff=0x8100000a
+
+
+
+
+
+
+
 
