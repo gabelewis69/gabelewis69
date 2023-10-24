@@ -379,3 +379,44 @@ s.sendto(packet, (dst_ip, 0))
 
 
 
+Network Reconnaissance
+______________________________________________________________________________________________________________________
+
+
+
+Active scanning
+Network Scanning DNS Queries / Arp Requests
+External                       Internal  
+
+Passive scanning
+DNS Lookups Whois Job Site Listings / Packet Sniffers
+External                              Internal
+
+Passive recon is about gathering info about targets without direct interaction, is more difficult but more sneaky
+Involves identifying IP addresses and subdomains, any external or third party sites, people and technologies, content of interest, and vulnerabilities
+Tools are WHOIS, Job site listings, phone numbers, google searches, passive OS fingerprinting nslookup, dig
+
+dig axfr @nsztm1.digi.ninja zonetransfer.me
+whois ccboe.net
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
