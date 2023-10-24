@@ -268,3 +268,114 @@ ether[12:4]&0xffff0fff=0x81000001&&ether[16:4]&0xffff0fff=0x8100000a
 Network Programming 
 ______________________________________________________________________________________________________________________
 
+Scket types
+1. Stream
+Secure connection with a 3-way handshake
+
+2. Datagram
+UDP/Yeeter, sprays prays and hopes for the best
+
+3. Raw
+Different cause it raw dogs in with the kernel rather than in user space
+
+
+Sockets are the no shit way networking works, ssh uses sockets. Sockets are just making a connection and whatever protocol they are built on 
+
+User Space Applications
+tcpdump or wireshark to read a file
+nmap with no switches
+netcat to create a listener above the well known range
+using /dev/tcp or /dev/udp to transmit
+
+Kernel Space Applications
+using tcpdump or wiresharks on the wire
+Using nmap for OS id or to set flags
+netcat to create a listener
+
+import socket
+s = socket.socket(socket.FAMILY, socket.TYPE, socket.PROTOCOL)
+*Family/Type/Protocol will be changed with whatever we're trying to create*
+
+socket.socket([*family*[,*type*[*proto*]]])
+
+Family Constants 
+AF_INET, AF_INET6, AF_UNIX
+Type Constants
+SOCK_STREAM, SOCK_DGRAM, SOCK_RAW
+Proto Constants
+0, IPPROTO_RAW
+
+Raw sockets
+Are used to testing specific defenses, avoiding them, and to be sneaky
+
+
+
+
+
+
+
+
+
+#!/usr/bin/python3
+import socket
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+ipaddr = '127.0.0.1'
+port = 54321
+s.connect((ipaddr, port))
+s.send(b'Hello\n')
+#b is to send a bytes like object
+response, conn = s.recvfrom(1024
+#Creating the buffer size for the response
+print(response.decode())
+#take bytes like object and decode it into UTF-8
+s.close()
+
+#!/usr/bin/python3
+import socket
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+ipaddr = '127.0.0.1'
+port = 12345
+s.sendto(b'Hello', (ipaddr,port))
+response, conn = s.recvfrom(1024)
+print(response.decode())
+
+
+#!/usr/bin/python3
+import socket
+#system level commands
+import sys
+#Allows the creation of packet struture
+from struct import *
+#Create the raw socket
+try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW
+except socket.error as msg:
+        print(msg)
+        sys.exit()
+packet = ''
+src_ip "10.1.0.2"
+dst_ip = "10.3.0.2"
+#IP Header variables
+ip_ver_ihl = 69      #Combined decimal value of 0x45 for IHL and Version
+ip_tos = 0           # This combines the DSCP and ECN feilds
+ip_len = 0           # The kernel will fill in the actually length of the packet
+ip_id = 12345        # This sets the IP Identification for the packet
+ip_frag = 0          # This sets fragmentation to off
+ip_ttl = 64          # This determines the TTL of the packet when leaving the machine
+ip_proto = 16        # This sets the IP protocol to 16 (Chaos). If this was 6 (TCP) or 17 (UDP) additional headers would be required
+ip_check = 0         # The kernel will fill in the checksum for the packet
+ip_srcadd = socket.inet_aton(src_ip) #Converts the IP address to a 32 bit binary number
+ip_dstadd = socket.inet_aton(dst_ip)
+ip_header = pack('!BBHHHBBH4s4s' , ip_ver_ihl, ip_tos, ip_len, ip_id, ip_frag, ip_ttl, ip_proto, ip_check, ip_srcadd, ip_dstadd)
+message = b'Networking is fun!'
+packet = ip_header + message
+# Send the packet
+s.sendto(packet, (dst_ip, 0))
+
+
+
+
+
+
+
+
