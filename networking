@@ -2,6 +2,10 @@ https://net.cybbh.io/public/networking/latest/index.html
 
 Less learning how to directly defend the network and more of the network at basic level
 
+
+Goodbye my friend, you messed up again.
+
+Port range 51500-51599
 c 6,005.64
 s 42.35
 I 2,119.16
@@ -395,27 +399,295 @@ External                              Internal
 Passive recon is about gathering info about targets without direct interaction, is more difficult but more sneaky
 Involves identifying IP addresses and subdomains, any external or third party sites, people and technologies, content of interest, and vulnerabilities
 Tools are WHOIS, Job site listings, phone numbers, google searches, passive OS fingerprinting nslookup, dig
+The internet wayback machine
 
 dig axfr @nsztm1.digi.ninja zonetransfer.me
 whois ccboe.net
+Google Dorking
+*ccboe.net -site:*.ccboe.net
+site:*.ccboe.net "Powered by"
+Shodan
+- is a repository of web accessable vulnerable devices, cost money, and can lead to trouble 
+
+Active external recon
+Different strategies, Remote to Local, Local to Remote, Local to Local, Remote to Remote
+Scanning approach, aim (wide range target scan or target specific) and method (single source scan or distributed)
+Broadcast ping and ping sweep, arp scan, syn scan, full connect scan, null scan, fin scan, xmas tree scan, UDP scan
+ACK/Window scan, RPC scan, FTP scan, decoy scan, OS fingerprinting scan, version scan, protocol ping, discovery probes, idle scan
+FTP bounce scan, maimon scan, ICMP echo discovery probe, Timestamp Discovery Probe, Netmask Request Discovery probe,
+SCTP INIT Scan
+Tools fping, hping3, arping, nmap, netcat
+nmap by default does a full connect scan, scans the top 1000 ports used by everyone and host discovery 
+Syn scan is with -sS and using sudo, with this verify what services are actually running
+Version scan is with -sV which will check what service is actually running, with a -vv makes it verbose, and -O adds OS
+nmap IP -vv -A -p 1-1024 or even -1024
+nmap ip -T4 --min-rate 10000 makes it loud but faster
+A -n will disable name resolution on nmap
+namp ip -vv -sU -T4 --min-rate 10000 -Pn
+nc -nzw1
+-n no name resolution, -z port scanning mode, I/O mode using TCP, -w for wait for 1 second
+curl will show the html, wget will download it adding -r gives you more
+wget -r ftp://172.16.82.112:4444
+
+Situational awareness
+1. hostname / uname -a
+2. whoami, w
+3. pwd
+4. sudo -l
+5. cat /etc/services & /etc/hosts
+6. ps -elf
+7. netstat -ntlup / ss -ntlup
+8. ifconfig / ip addr or ip a
+9. arp / ip n or neigh
+10. route / ip route or r
+11. Check any important directories as directed
+
+for ping sweep
+for i in {1..254} ;do (ping -c 1 192.168.1.$i | grep "bytes from" &) ;done
+
+21-23 80
 
 
 
 
 
 
+Movement, Redirection, and Data Transfer
+______________________________________________________________________________________________________________________
+
+TFTP
+Small and simple communication
+FTP
+Active mode
+        The pizza is delivered
+Passive mode
+        You go get the pizza
+No matter what with FTP there are two ports being used. The command port (21) and the port used for the actual data transfer
+SFTP
+SSH File Transfer Protocol, has a higher range of features over SCP like resuming interrupted transfers, directory listings, and remote file removal.
+FTPS 
+File Transfer Protocol Secure
+        has an implicit mode and explicit mode
+        implicit has encryption at all times over ports 990 and 989 
+        explicit mode uses port 21 and can be secure or unsecure
+SCP
+uses port 22 and ssh but is non interactive
+scp <options> <source> <destination> 
+scp -P <port>
+scp -r <recursively copy a directory>
+scp -3 <3 way communication>
+scp file.txt <user>@<ip address>:<path in relation to user home directory>
+scp <user>@<IP>:/etc/ssh/sshd_config .
+
+NETCAT
+Uses network socket connections to read and write data
+Can be used for metasploit shells or banner grabbing
+
+Client (seds file): nc 10.2.0.2 9001 < file.txt
+Listener (receives file): nc -l -p 9001 > newfile.txt
+
+named pipes
+nkfifo <name of pipe>
+
+FOR RELAY
+<nc command> 0<piper | <nc command> 1>piper
+
+on one machine do nc -lp 5454
+on another do nc 10.10.0.40 4343
+on the IH machine nc 172.16.82.106 5454 0<piper | nc -lp 4343 1>piper
+
+
+
+Local and Dynamic SSH Tunneling
+Local port forwarding
+ssh -p <optional alt port> <user>@<pivot ip> -L <local bind port>:<tgt ip>:<tgt port> -NT
+or
+ssh -L <local bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<pivot ip> -NT
+
+SSH Local Port Forwarding
+
+    Creates a local port (1111) on the local host that forwards to a target machine’s port 80.
+
+ssh student@172.16.82.106 -L 1111:localhost:80 -NT
+
+or
+
+ssh -L 1111:localhost:80 student@172.16.82.106 -NT
+
+SSH Local Port Forwarding Through a Local Port
+
+Internet Host:
+ssh student@172.16.1.15 -L 1111:172.16.40.10:22 -NT
+ssh student@localhost -p 1111 -L 2222:172.16.82.106:80 -NT
+firefox localhost:2222
+
+    Creates an additional local port on the local host that forwards to a target machine through the previous channel created.
+
+SSH Dynamic Port Forwarding
+
+    Syntax
+
+ssh -D <port> -p <alt port> <user>@<pivot ip> -NT
+
+    Proxychains default port is 9050
+
+    Creates a dynamic socks4 proxy that interacts alone, or with a previously established remote or local port forward.
+
+    Allows the use of scripts and other userspace programs through the tunnel.
+
+SSH Dynamic Port Forwarding 1-Step
+
+Blue Private Host-1:
+ssh student@172.16.82.106 -D 9050 -NT
+
+proxychains ./scan.sh
+proxychains ssh student@10.10.0.40
+
+Second Pivot External Active Recon
+tp4
+11.1
+SSH Local Port ForwardingSyntaxssh -p <optional alt port> <user>@<pivot ip> -L <local bind port>:<tgt ip>:<tgt port> -NT or ssh -L <local bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<pivot ip> -NT
+
+Dynamic port forwarding
+ssh -D <port> -p <alt port> <user>@<pivot ip> -NT
+
+SSH Remote port forwarding
+ssh -p <optional alt port> <user>@<remote ip> -R <remote bind port>:<tgt ip>:<tgt port> -NT 
+or
+ssh -R <remote bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<remote ip> -NT
+
+L -> <-R
+
+BOARD STUFF
+IH> <nmap> Bob
+IH> nc Bob 22
+        ProFTPd
+        nc Bob 25
+        OpenSSH
+IH>  wget -r ftp://Bob:22
+IH>  ssh user1@Bob
+Bob> *perform situational awareness*
+IH>  ssh user1@Bob -p 25 -L 51000:127.0.0.1:80 -NT
+Bob> ssh student@IH -R 51099:127.0.0.1:80 -NT 
+IH>  wget -r http://127.0.0.1:51000 or 51099
+IH>  ssh user1@BOB -p 25 -D 9050 -NT
+IH>  proxychains <nmap -Pn> Jerry,Thomas
+IH>  proxychains wget -r gtp://Jerry
+IH>  proxychains telnet Jerry
+Jerry>  ssh user1@Bob -p 25 -R 51098:127.0.0.1:33 -NT
+IH>  ssh user1@Bob -p 25 -L 51001:127.0.0.1:51098
+IH>  nc 127.0.0.1 51001
+        OpenSSH
+IH>  ssh user1@127.0.0.1 -p 51001
+Jerry> exit
+IH>  ssh user1@127.0.0.1 -p 51001 -D 9050 -NT *close the old connection to use the 9050 port*
+IH>  ssh user1@Bob -p 25 -L 51002:Jerry:23 -NT
+IH>  telnet 127.0.0.1 51502
+Jerry> ssh user1@Bob -p 25 -R 51098:127.0.0.1:22 -NT
+IH>  ssh user1@127.0.0.1 -p 51001
+Jerry> exit
+IH>  ssh user1@127.0.0.1 -p 51001 -D 9050 -NT
+IH>  proxychains <nmap> -Pn Joe or proxychains ./scan.sh
+IH>  proxychains nc Joe 22
+        OpenSSH
+IH>  proxychains nc Joe 80
+        Telnet
+IH>  proxychains nc Joe 443
+                ProFTPd
+IH>  proxychains wget -r ftp://Joe:443
+
+
+
+
+
+~/recon
+________
+Bob:22/
+127.0.0.1:51000/
+Jerry/
+Thomas/
+Joe:443/
+
+51000 -> Bob:80
+51099 -> Bob:80
+51001 -> Bob:51098
+51095 -> Jerry:22
+51002 -> Jerry:23
+51098 -> Jerry:22
+9050  -> *
+
+-NT makes it so the terminal no longer accepts input
 
 
 
 
 
 
+T3 (Atropia) Float IP address is - 10.50.42.216
+
+T4 (Pineland) Float IP address is - 10.50.44.211 (Note - You can only telnet here to act as an insider, this will not be a routed path)
 
 
 
 
 
+1.
+ssh net5_student10@10.50.42.216 -L 51000:10.3.0.27:80 -NT
+ wget -r http://127.0.0.1:51000
 
+2.
+ssh net5_student10@10.50.42.216 -D 9050 -NT
+proxychains wget -r ftp://10.3.0.1
+
+3.
+telnet 10.50.44.211
+
+4.
+IH> telnet 10.50.44.211
+pineland> ssh net5_student10@10.3.0.10 -R 51099:localhost:22 -NT
+IH> ssh net5_student10@10.50.42.216 -L 51001:localhost:51099 -NT
+IH> ssh net5_student10@localhost -p 51001 -L 51002:10.2.0.2:80 -NT
+IH> wget -r http://127.0.0.1:51002
+IH> cat 127.0.0.1\:51002/index.html
+
+5. 
+ssh net5_student10@127.0.0.1 -p 51001 -D 9050 -NT
+proxychains wget -r ftp://10.2.0.2
+
+6.
+ssh net5_student10@10.50.42.216 -D 9050 -NT
+proxychains ./scan.sh
+proxychains wget -r http://10.3.0.1
+cat 10.3.0.1/index.html
+
+7.
+proxychains wget -r ftp://10.3.0.27
+cat 10.3.0.27/flag.txt
+
+8.
+ssh net5_student10@10.50.42.216 -L 51006:10.4.0.1:22 -NT
+ssh net5_student10@127.0.0.1 -p 51006 -D 9050 -NT
+proxychains wget -r ftp://10.5.0.1
+
+
+9.
+proxychains wget -r http://10.5.0.1
+
+10.
+proxychains wget -r ftp://10.5.0.57
+
+11.
+proxychains wget -r http://10.5.0.57
+
+Data Collection
+telnet 10.50.40.12
+
+1.
+data-collection-net-ssh-01> ssh student@10.50.45.241 -R 51097:127.0.0.1:22 -NT
+IH> ssh net5_student10@127.0.0.1 -p 51097 -D 9050 -NT
+IH> proxychains wget -r http://127.0.0.1
+
+2.
 
 
 
