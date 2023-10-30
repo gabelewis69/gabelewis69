@@ -106,7 +106,9 @@ Modes
 Switches separate collision domains
 Routers separate broadcast domains
 WE ARE NOT MAKING ROUTER CONFIGS
-Subnetting is dividing networks
+Subnetting is dividing networksNetwork Fundamentals 
+______________________________________________________________________________________________________________________
+
 Supernetting is combining networks, trading network bits for host bits
 DuckDuckGo.com can subnet for you
 The lookup process is based off what is the closest match
@@ -688,6 +690,104 @@ IH> ssh net5_student10@127.0.0.1 -p 51097 -D 9050 -NT
 IH> proxychains wget -r http://127.0.0.1
 
 2.
+SSH 0-1> for i in {1..254} ;do (ping -c 1 192.168.0.$i | grep "bytes from" &) ;done 2>/dev/null
+IH> proxychains nmap -T4 -sV -Pn 192.168.0.30 
+IH> proxychains nc 192.168.0.30 4444 
+
+3.
+
+4. 
+IH> proxychains wget -r ftp://192.168.0.20
+
+5.
+ssh net5_student10@127.0.0.1 -p 51097 -L 51008:192.168.0.20:3333 -NT
+ssh net5_student10@127.0.0.1 -p 51008 -D 9050 -NT
+proxychains wget -r ftp://192.168.0.50
+
+6.
+IH> ssh net5_student10@127.0.0.1 -p 51097 -D 9050 -NT
+IH> wget -r http://192.168.0.40
+
+7.
+found in the 192.168.0.40 hint
+
+8.
+
+9.
+IH> ssh net5_student10@127.0.0.1 -p 51097 -L 51009:192.168.0.40:5555 -NT
+IH> ssh net5_student10@127.0.0.1 -p 51009 -D 9050 -NT
+IH> proxychains wget -r http://172.16.0.60
+
+
+
+
+
+
+
+
+Network Analysis 
+______________________________________________________________________________________________________________________
+
+
+Wireshark
+TCPDUMP
+Fingerprinting and host identification is done using POF (Passive OS Fingerprinting)
+You can find it by doing 
+IH> more /etc/p0f/p0f.fp
+We can use Libpcap, WinPcap, and NPCAP
+We do a week for baselining, to understand when people are supposed to be at work and when they aren't, and what is the norm or unusual. 
+Wireshark Expert information could be useful on CTFD
+Ctrl+F for string use The display filter for more help
+
+
+sudo tcpdump -r analysis-demo.pcap "tcp[13]=0x02" | awk '{print $3}' | cut -d. -f1,2,3,4 | sort -n | uniq
+
+
+
+
+
+Full Packet Capture Data is a pcap
+Session Data
+        sflow is for switches
+        NetFlow pulls all the ip information or router
+Statistical Data 
+Packet String Data
+Alert Data
+Log Data
+
+Sensors 
+        In-Line goes through our machine
+        Passive gets data that we aren't in the middle of
+Data Collection
+        TAP
+        SPAN
+        ARP Spoofing (MitM) is a gratuitous reply
+Indicator of Attack (IOA)
+        Proactive
+        A series of actions that are suspicious together
+        Focus on Intent
+        Looks for what must happen
+                Code execution, persistence, lateral movement, etc.
+
+
+
+33.
+meterpreter
+
+34. 
+ruby
+
+35.
+
+
+
+
+
+
+
+
+
+
 
 
 
