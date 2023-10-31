@@ -748,15 +748,22 @@ found in the 192.168.0.40 hint
 8.
 
 9.
-IH> ssh net5_student10@127.0.0.1 -p 51097 -L 51009:192.168.0.40:5555 -NT
+IH> ssh net5_student10@127.0.0.1 -p 51097 -L 51008:192.168.0.20:3333 -NT
 IH> ssh net5_student10@127.0.0.1 -p 51009 -D 9050 -NT
 IH> proxychains wget -r http://172.16.0.60
 
 10.
 IH> ssh net5_student10@127.0.0.1 -p 51097 -L 51009:192.168.0.40:5555 -NT
 IH> ssh net5_student10@127.0.0.1 -p 51009 -L 51010:172.16.0.60:23 -NT
+IH> telnet 127.0.0.1 51010
 ssh-06> ssh net5_student10@192.168.0.40 -p 5555 -R 51095:127.0.0.1:22 -NT
 IH> ssh net5_student10@127.0.0.1 -p 51097 -L 51011:192.168.0.40:51095 -NT ??
+IH> ssh net5_student10@127.0.0.1 -p 51009 -L 51011:127.0.0.1:51095 -NT
+IH> ssh net5_student10@127.0.0.1 -p 51011 -D 9050 -NT
+IH> ssh net5_comrade10@127.0.0.1 -p 51011 -L 51012:172.16.0.90:2222 -NT
+IH> ssh net5_comrade10@127.0.0.1 -p 51012 -D 9050 -NT
+IH> proxychains telnet 172.16.0.100
+DC-net-SSH-10> tcpdump -X icmp
 
 
 
