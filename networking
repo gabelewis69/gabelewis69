@@ -795,4 +795,42 @@ ruby
 
 
 
+Network Traffic Filtering 
+______________________________________________________________________________________________________________________
+
+
+
+
+
+
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+sudo iptables -A INPUT -p tcp --sport 22 -j ACCEPT
+sudo iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
+sudo iptables -A OUTPUT -p tcp --dport 22 -j ACCEPT
+sudo iptables -A INPUT -p tcp -m multiport --ports 6010,6011,6012 -j ACCEPT
+sudo iptables -A OUTPUT -p tcp -m multiport --ports 6010,6011,6012 -j ACCEPT
+sudo iptables -P INPUT DROP
+sudo iptables -P OUTPUT DROP
+sudo iptables -I INPUT -s 172.16.82.106 -j DROP
+sudo iptables -I OUTPUT -d 172.16.82.106 -j DROP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
