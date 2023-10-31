@@ -904,6 +904,53 @@ sudo nft -f nftable.rules
 
 
 
+NAT and PAT w/ IPTABLES
+
+snat
+	postrouting
+        input
+
+masquerade
+        postrouting
+
+dnat
+	prerouting
+        output
+
+redirect
+        prerouting
+        output
+Source NAT w/ iptables
+iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to 1.1.1.1
+
+Destination NAT w/ iptables
+iptables -t nat -A PREROUTING -i eth0 -j DNAT --to 10.0.0.1
+
+Source PAT w/ iptables
+iptables -t nat -A POSTROUTING -p tcp -o eth0 -j SNAT --to 1.1.1.1:9001
+
+Destination PAT (Port Forwarding) w/ iptables
+iptables -t nat -A PREROUTING -p tcp -i eth0 -j DNAT --to 10.0.0.1:8080
+
+
+NAT and PAT w/ nftables
+nft add table NAT
+nft add chain NAT PREROUTING {type nat hook prerouting priority 0 \; }
+nft add chain NAT POSTROUTING {type nat hook postrouting priority 100 \; }
+
+Create the NAT rules
+nft add rule NAT POSTROUTING ip saddr 10.1.0.2 oif eth0 snat 144.15.60.11
+nft add rule NAT PREROUTING iif eth0 tcp dport { 80, 443 } dnat 10.1.0.3
+nft add rule NAT POSTROUTING ip saddr 10.1.0.0/24 oif eth0 masquerade
+nft add rule NAT PREROUTING tcp dport 80 redirect to 8080
+
+
+
+
+
+
+
+
 
 
 
