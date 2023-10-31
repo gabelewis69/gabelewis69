@@ -856,8 +856,8 @@ sudo iptables -A INPUT -i eth0 -p tcp --syn -m limit --limit 10/second -j ACCEPT
 sudo iptables-save > cctcipt.conf
 sudo iptables-restore < cctc.conf -v
 
-
-
+sudo apt-get install nftables
+sudo nft list tables
 
 
 
