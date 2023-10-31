@@ -21,7 +21,7 @@ a quad word is two long words
 Communication happens through encapsulation and decapsulation depending on which layer of the OSI model it is going through
 Looking at the graph there are different examples of which layers of the OSI model certain applications work through
 Data link sub-layers MAC and LLC 
-The destination is sent first over ethernet because when the frames are going through switches it makes it faster, because they don't need a source just a destination
+The destination is sent first over ethernet beclause when the frames are going through switches it makes it faster, because they don't need a source just a destination
 
 Common Ethertypes controlled by IANA.org:
 
@@ -621,9 +621,43 @@ Joe:443/
 -NT makes it so the terminal no longer accepts input
 
 
+when digging around or Passive Recon Methodology
+Hostname
+interfaces and subnets
+        ip a 
+        ifconfig
+Neighbors
+        ip n
+        arp -a
+Files of interest
+        find / flags 2>/dev/null
+Other listening ports
+        netstat -ntlp
+        ss -ntlp
+Available Tools
+        which tcpdump wireshark nmap telnet get curl ping
+NET RECON
+Host Discovery
+        nmap nc scan script ping sweep
+Port Discovery
+      nmap nc scan script
+Port Validation
+        Banner grabbing using nc
+Follow-on actions based on ports found
+        If 22 or 23 CONNECT and PASSIVE RECON
+        If 21 or 80 wget -r IP or wget -r ftp://ip or firefox
+SCAN METHODOLOGY
+Quick Scan Ports 21-23, 80
+Specific ports based on hints found
+Wel known port range
+        0-1023
+Chunks of 2000 or first 10000
+Hail Mary - Scan all ports (65535)
 
 
 
+
+using sudo nmap -Pn 192.168.0.20,30,40,200 -T4 -p 21-23,80
 
 T3 (Atropia) Float IP address is - 10.50.42.216
 
