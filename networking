@@ -813,10 +813,14 @@ sudo iptables -P INPUT DROP
 sudo iptables -P OUTPUT DROP
 sudo iptables -I INPUT -s 172.16.82.106 -j DROP
 sudo iptables -I OUTPUT -d 172.16.82.106 -j DROP
-
-
-
-
+sudo iptables -A INPUT -s 172.16.82.112 -j ACCEPT
+sudo iptables -A OUTPUT -d 172.16.82.112 -j ACCEPT
+sudo iptables -L -v
+sudo iptables -A INPUT -m state --state INVALID -j DROP
+sudo iptables -A INPUT -f -j DROP
+sudo iptables -A INPUT -i eth0 -p tcp --syn -m limit --limit 10/second -j ACCEPT
+sudo iptables-save > cctcipt.conf
+sudo iptables-restore < cctc.conf -v
 
 
 
