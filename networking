@@ -944,8 +944,9 @@ nft add rule NAT PREROUTING iif eth0 tcp dport { 80, 443 } dnat 10.1.0.3
 nft add rule NAT POSTROUTING ip saddr 10.1.0.0/24 oif eth0 masquerade
 nft add rule NAT PREROUTING tcp dport 80 redirect to 8080
 
-
-
+T@bl3sth@tF1lt3r
+ N@tF1lt3rsf0rL1f3
+i_am_filtering_your_noise
 
 
 
