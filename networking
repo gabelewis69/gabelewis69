@@ -987,18 +987,27 @@ BH1> sudo iptables -A INPUT -p tcp -m state --state NEW,ESTABLISHED -m multiport
 BH1>
 BH1>
 BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
-BH1>
+BH3>sudo nft add table BH3
+BH3>sudo nft add chain ip BH3 input { type filter hook input priority 0\; policy accept\; }
+BH3>sudo nft add chain ip BH3 output { type filter hook output priority 0\; policy accept\; }
+BH3>sudo nft add rule ip BH3 input tcp dport { 22,23,3389 } ct state { new, established } accept
+BH3>sudo nft add rule ip BH3 input tcp sport { 22,23,3389 } ct state { new, established } accept
+BH3>sudo nft add rule ip BH3 output tcp sport { 22,23,3389 } ct state { new, established } accept
+BH3>sudo nft add rule ip BH3 output tcp dport { 22,23,3389 } ct state { new, established } accept
+BH3>sudo nft add chain ip BH3 input { type filter hook input priority 0\; policy drop\; }
+BH3>sudo nft add chain ip BH3 output { type filter hook output priority 0\; policy drop\; }
+BH3>sudo nft insert rule ip BH3 output icmp type echo-request ip daddr 10.10.0.40 accept
+BH3>sudo nft insert rule ip BH3 input icmp type echo-reply ip saddr 10.10.0.40 accept
+BH3>sudo nft insert rule ip BH3 output icmp type echo-reply ip daddr 10.10.0.40 accept
+BH3>sudo nft insert rule ip BH3 input icmp type echo-request ip saddr 10.10.0.40 accept
+BH3>sudo nft add rule ip BH3 input tcp dport { 5050,5150 } accept
+BH3>sudo nft add rule ip BH3 input tcp sport { 5050,5150 } accept
+BH3>sudo nft add rule ip BH3 input udp dport { 5050,5150 } accept
+BH3>sudo nft add rule ip BH3 input udp sport { 5050,5150 } accept
+BH3>sudo nft add rule ip BH3 output tcp dport { 5050,5150 } accept
+BH3>sudo nft add rule ip BH3 output tcp sport { 5050,5150 } accept
+BH3>sudo nft add rule ip BH3 output udp dport { 5050,5150 } accept
+BH3>sudo nft add rule ip BH3 output udp sport { 5050,5150 } accept
+BH3>sudo nft add rule ip BH3 output/input tcp dport/sport { 80 } ct state { new, established } accept
+BH3>
+ sudo iptables -t nat -A POSTROUTING -o eth1 -j SNAT --to 192.168.1.10
