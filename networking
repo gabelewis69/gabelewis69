@@ -1011,3 +1011,118 @@ BH3>sudo nft add rule ip BH3 output udp sport { 5050,5150 } accept
 BH3>sudo nft add rule ip BH3 output/input tcp dport/sport { 80 } ct state { new, established } accept
 BH3>
  sudo iptables -t nat -A POSTROUTING -o eth1 -j SNAT --to 192.168.1.10
+
+
+
+
+
+
+
+
+Network Based filtering
+Standard and extended ACLs 
+Standard is 1-99 and 1300-1999
+Only filters on source address
+Go as CLOSE to the destination as possible
+Extended is 100-199 and 2000-2699
+Can filter on Source, Destination, protocol, icmp type/code, and tcp/udp port
+Go as CLOSE to the source as possible
+
+IDS or IPS
+Placement
+Recognition Methods
+	Signature - We know exactly what is looks like
+	Heuristic aka Behavioral - Looking at how it acts and abnormal behavior outside of the baseline
+
+Snort IDS/IPS Rule - Header
+[action] [protocol] [s.ip] [s.port] [direction] [d.ip] [d.port] ( match conditions ;)
+
+
+    Action - such as alert, log, pass, drop, reject
+    Protocol - includes TCP, UDP, ICMP and others
+    Source IP address - single address, CIDR notation, range, or any
+    Source Port - one, multiple, any, or range of ports
+    Direction - either inbound or in and outbound
+    Destination IP address - options mirror Source IP
+    Destination port - options mirror Source port
+
+Snort IDS/IPS General rule options:
+    msg - specifies the human-readable alert message
+    reference - links to external source of the rule
+    sid - used to uniquely identify Snort rules
+    rev - uniquely identify revisions of Snort rules
+    Classtype - used to describe what a successful attack would do
+    priority - level of concern (1 - really bad, 2 - badish, 3 - informational)
+    metadata - allows a rule writer to embed additional information about the rule
+
+Snort IDS/IPS Payload detection options:
+    content - looks for a string of text.
+    |binary data| - to look for a string of binary HEX
+    nocase - modified content, makes it case insensitive
+    depth - specify how many bytes into a packet Snort should search for the specified pattern
+    distance - how far into a packet Snort should ignore before starting to search for the specified pattern 
+	relative to the end of the previous pattern match
+    within - modifier that makes sure that at most N bytes are between pattern matches using the content keyword
+    offset - skips a certain number of bytes before searching (i.e. offset: 12)
+Failed IDS/IPS
+    Fail open
+    Fail close
+Attacking & Evading IDS/IPS
+Based on Delta between devices
+    Insertion Attack
+        IDS accepts packet
+        Host will not accept packet
+    Evasion Attacking
+        IDS does not accept packet
+        Host will accept packet
+
+Network Traffic Filtering Complete
+
+Check intel on the CTF server for new information regarding mission tasks
+
+Snort IDS/IPS Thresholding and suppression options:
+    type [limit | threshold | both]
+        limit alerts on the 1st event during defined period then ignores the rest.
+        Threshold alerts every [x] times during defined period.
+        Both alerts once per time internal after seeing [x] amount of occurrences of event. It then ignores all 	other events during period.
+    track [by_src | by_dst] - rate is tracked either by source IP address, or destination IP address
+    count [#] - number of rule matching in [s] seconds that will cause event_filter limit to be exceeded
+    seconds [seconds] - time period over which count is accrued. [s] must be nonzero value
+
+Snort rule example
+    Look for anonymous ftp traffic:
+    alert tcp any any -> any 21 (msg:"Anonymous FTP Login"; content: "anonymous"; sid:2121; )
+    This will cause the pattern matcher to start looking at byte 6 in the payload)
+    alert tcp any any -> any 21 (msg:"Anonymous FTP Login"; content: "anonymous"; offset:5; sid:2121; )
+    This will search the first 14 bytes of the packet looking for the word “anonymous”.
+    alert tcp any any -> any 21 (msg:"Anonymous FTP Login"; content: "anonymous"; depth:14; sid:2121; )
+    Deactivates the case sensitivity of a text search.
+    alert tcp any any -> any 21 (msg:"Anonymous FTP Login"; content: "anonymous"; nocase; sid:2121; )
+
+Rule Header
+    ICMP ping sweep
+    alert icmp any any -> 10.1.0.2 any (msg: "NMAP ping sweep Scan"; dsize:0; sid:10000004; rev: 1; )
+    Look for a specific set of Hex bits (NoOP sled)
+    alert tcp any any -> any any (msg:"NoOp sled"; content: "|9090 9090 9090|"; sid:9090; rev: 1; )
+    Incorrect telnet login attempt
+    alert tcp any 23 -> any any (msg:"TELNET login incorrect"; content:"Login incorrect";
+    flow:established,from_server; classtype:bad-unknown; sid:2323; rev:6; )
+Failed IDS/IPS
+    Fail open
+    Fail close
+Attacking & Evading IDS/IPS
+Based on Delta between devices
+    Insertion Attack
+        IDS accepts packet
+        Host will not accept packet
+    Evasion Attacking
+        IDS does not accept packet
+        Host will accept packet
+Network Traffic Filtering Complete
+Check intel on the CTF server for new information regarding mission tasks
+
+
+
+
+
+
