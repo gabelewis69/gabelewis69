@@ -1126,3 +1126,12 @@ Check intel on the CTF server for new information regarding mission tasks
 
 
 
+snort --version +
+sudo snort -D -l /var/log/snort/ -c /etc/snort/snort.conf 
+sudo cat /var/log/snort/alert
+sudo tcpdump -ntr /var/log/snort/snort.log.1698843756 | awk '{print $2} {print $4}' | sort | uniq -c
+sudo snort -r /var/log/snort/snort.log.1698843756
+sudo snort -D -l /var/log/snort/ -c /etc/snort/snort.conf -n 6
+
+
+
