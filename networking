@@ -1179,6 +1179,8 @@ CAP7> ssh net5_student10@10.2.2.6 -p 7777 -R 51098:127.0.0.1:2222 -NT
 IH> ssh net5_comrade10@127.0.0.1 -p 51006
 IH> ssh net5_student10@10.50.41.66 -p 7777 -L 51006:127.0.0.1:51098 -NT
 IH> ssh net5_comrade10@127.0.0.1 -p 51006 -D 9050 -NT
+IH> ssh net5_comrade10@127.0.0.1 -p 51006 -L 51007:10.10.10.140:301 -NT
+IH> ssh net5_student1010@127.0.0.1 -p 51007 -D 9050 -NT
 
 
 
