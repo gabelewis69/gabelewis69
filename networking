@@ -1,7 +1,7 @@
 https://net.cybbh.io/public/networking/latest/index.html
 
 Less learning how to directly defend the network and more of the network at basic level
-
+192.168.245.184
 
 Goodbye my friend, you messed up again.
 Lewis(10) - 10.50.45.241
@@ -20,7 +20,7 @@ Huss - (7) 10.50.43.110
 Stephens(17) - 10.50.37.223
 (9) 10.50.26.189
 (14) 10.50.20.73
-(13) 10.50.35.39
+Reggie (13) 10.50.35.39
 Bonestroo - (4) 10.50.39.143
 (12) 10.50.44.240
 Port range 51500-51599
@@ -1150,6 +1150,39 @@ sudo cat /var/log/snort/alert
 sudo tcpdump -ntr /var/log/snort/snort.log.1698843756 | awk '{print $2} {print $4}' | sort | uniq -c
 sudo snort -r /var/log/snort/snort.log.1698843756
 sudo snort -D -l /var/log/snort/ -c /etc/snort/snort.conf -n 6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Capstone notes, open TCP port waiting for a connection and use a Python3 TCP stream sender, .25 hint-03b
+Bazinga is hint-03b
+
+
+10.1.1.11 has the webservice on the RFC (probably 1918) that governs Private IPv4 addressing
+There's a PCAP saved in the share folder of this machine
+
+
+IH> ssh net5_student10@10.50.41.66 -p 7777 -L 51005:10.2.2.7:23 -NT
+IH> telnet 127.0.0.1 51005
+CAP7> ssh net5_student10@10.2.2.6 -p 7777 -R 51098:127.0.0.1:2222 -NT
+IH> ssh net5_comrade10@127.0.0.1 -p 51006
+IH> ssh net5_student10@10.50.41.66 -p 7777 -L 51006:127.0.0.1:51098 -NT
+IH> ssh net5_comrade10@127.0.0.1 -p 51006 -D 9050 -NT
+
+
+
+
 
 
 
