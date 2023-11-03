@@ -1186,6 +1186,14 @@ IH> ssh net5_comrade10@127.0.0.1 -p 51006 -L 51007:10.10.10.167:404 -NT
 
 
 
-
-
+IH> nmap -T4 -Pn 10.50.27.32
+IH> ssh net5_student10@10.50.27.32
+BOX1> ip a
+BOX1> ss -ntlp
+BOX1> ruby ping sweep
+IH> ssh net5_student10@10.50.27.32 -??
+IH> proxychains nmap -Pn -T4 10.1.1.11,25,33,125,126 -p 21-23,80
+IH> proxychains wget
+IH> proxychains nmap
+IH> sudo iptables -t mangle -A POSTROUTING -j ttl --ttl-set 255
 
