@@ -1197,6 +1197,28 @@ IH> proxychains wget
 IH> proxychains nmap
 IH> sudo iptables -t mangle -A POSTROUTING -j ttl --ttl-set 255 
 
+scan.sh
+#!/bin/bash
+echo "Enter network address (e.g. 192.168.0): "
+read net
+echo "Enter starting host range (e.g. 1): "
+read start
+echo "Enter ending host range (e.g. 254): "
+read end
+echo "Enter ports space-delimited (e.g. 21-23 80): "
+read ports
+for ((i=$start; $i<=$end; i++))
+do
+    nc -nvzw1 $net.$i $ports 2>&1 | grep -E 'succ|open'
+done
+# (-v) running verbosely (-v on Linux, -vv on Windows),
+# (-n) not resolving names. numeric only IP(no D.S)
+# (-z) without sending any data. zero-I/O mode(used for scanning)
+#(-w1) waiting no more than 1second for a connection to occur
+# (2>&1) redirect STDERR to STDOUT. Results of scan are errors and need to redirect to output to grep
+# (-E) Interpret PATTERN as an extended regular expression
+# ( | grep open) for Debian to display only open connections
+# ( | grep succeeded) for Ubuntu to display only the open connections
 
 
 
@@ -1207,6 +1229,65 @@ IH> sudo iptables -t mangle -A POSTROUTING -j ttl --ttl-set 255
 
 
 
+dgram_soc
+#!/usr/bin/python3
+import socket
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+ipaddr = '127.0.0.1'
+port = 10000
+
+s.sendto(b'Disturbed', (ipaddr,port))
+
+response, conn = s.recvfrom(1024)
+
+print(response.decode())
+
+raw_soc
+#!/usr/bin/python3
+
+import socket
+
+# system level commands
+import sys
+
+#Allows the creation of packet structure
+from struct import *
+
+#Create the raw socket
+
+try:
+	s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+except socket.error as msg:
+	print(msg)
+	sys.exit()
+
+packet = ''
+
+src_ip = "10.1.0.2"
+dst_ip = "10.3.0.2"
+
+#IP Header variables
+
+ip_ver_ihl = 69		#Combined decimal value of 0x45 for IHL and Version
+ip_tos = 0		#Combined DSCP and ECN fields
+ip_len = 0		#The kernel will give us a length
+ip_id = 1775		#Setting an identification number
+ip_frag = 0		#Setting fragmentation to off
+ip_ttl = 64		#Setting the TTL 
+ip_proto = 16		#Setting the protocol to CHAOS(16)
+ip_check = 0		#Kernel will set up checksum
+ip_srcadd = socket.inet_aton(src_ip) #Converts the IP address to a 32 bit binary number
+ip_dstadd = socket.inet_aton(dst_ip) 
+
+ip_header = pack('!BBHHHBBH4s4s', ip_ver_ihl, ip_tos, ip_len, ip_id, ip_frag, ip_ttl, ip_proto, ip_check, ip_srcadd, ip_dstadd)
+
+message = b'Networking is fun!'
+packet = ip_header + message
+
+#send the packet
+s.sendto(packet, (dst_ip, 0))
 
 
 
@@ -1215,8 +1296,127 @@ IH> sudo iptables -t mangle -A POSTROUTING -j ttl --ttl-set 255
 
 
 
+rawtcp_soc 
+#!/usr/bin/python3
+
+import socket
+import sys
+import array	#To create the TCP checksum
+from struct import *
+
+#Create raw socket
+try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+except socket.error as msg:
+        print(msg)
+        sys.exit()
+packet = ''
+src_ip = "10.1.0.2"
+dst_ip = "10.3.0.2"
+
+#IP Header variables
+ip_ver_ihl = 69
+ip_tos = 0
+ip_len = 0
+ip_id = 4747
+ip_frag = 0
+ip_ttl = 64
+ip_proto = 6
+ip_check = 0
+ip_srcadd = socket.inet_aton(src_ip)
+ip_dstadd = socket.inet_aton(dst_ip)
+
+ip_header = pack('BBHHHBBH4s4s', ip_ver_ihl, ip_tos, ip_len, ip_id, ip_frag, ip_ttl, ip_proto, ip_check, ip_srcadd, ip_dstadd)
+
+#TCP Variables
+tcp_src = 54321     #Source Port
+tcp_dst = 7777      #Destination Port
+tcp_seq = 454       #Sequence Number
+tcp_ack_seq = 0     #tcp ack sequence number
+tcp_data_off = 5    #data offset specifying the size of the header * 4
+tcp_reserve = 0     #the 3 reserve bits + ns flag in reserve field
+tcp_flags = 0       #maximum allowed window size reordered to network order
+tcp_win = 65535       #Max window size
+tcp_chk = 0         #tcp checksum which will be calculated later on
+tcp_urg_ptr = 0     #urgent pointer if Urg flag set
+
+#Combine the offset and reserve field
+tcp_off_res = (tcp_data_off << 4) + tcp_reserve
+
+#TCP Flags
+tcp_fin = 0     #Finished flag
+tcp_syn = 1     #Sync flag
+tcp_rst = 0     #Reset flag
+tcp_psh = 0     #Push flag
+tcp_ack = 0     #Acknowledgement flag
+tcp_urg = 0     #Urgent flag
+tcp_ece = 0     #Explicit Congestion Notification Echo
+tcp_cwr = 0     #Congestion Window Reduced
+
+#Combine by shifting the bit locations
+tcp_flags = tcp_fin + (tcp_syn << 1) + (tcp_rst << 2) + (tcp_psh << 3) + (tcp_ack << 4) + (tcp_urg << 5) + (tcp_ece << 6) + (tcp_cwr << 7)
+
+#The ! in the pack format string means net order
+tcp_hdr = pack('!HHLLBBHHH', tcp_src, tcp_dst, tcp_seq, tcp_ack_seq, tcp_off_res, tcp_flags, tcp_win, tcp_chk, tcp_urg_ptr)
+
+user_data = b'Networking is SUPER fun, right?'
+
+#Pseudo header fields
+src_address = socket.inet_aton(src_ip)
+dst_address = socket.inet_aton(dst_ip)
+reserved = 0
+protocol = socket.IPPROTO_TCP
+tcp_length = len(tcp_hdr) + len(user_data)
+
+#Packing the pseudo header
+ps_hdr = pack('!4s4sBBH', src_address, dst_address, reserved, protocol, tcp_length)
+ps_hdr = ps_hdr + tcp_hdr + user_data
+
+def checksum(data):
+    if len(data) % 2 != 0:
+        data += b'\0'
+    res = sum(array.array("H", data))
+    res = (res >> 16) + (res & 0xffff)
+    res += res >> 16
+    return (~res) & 0xffff
+tcp_chk = checksum(ps_hdr)
+
+#Pack the tcp header for filling in checksum
+tcp_hdr = pack('!HHLLBBH', tcp_src, tcp_dst, tcp_seq, tcp_ack_seq, tcp_off_res, tcp_flags, tcp_win) + pack('H', tcp_chk) + pack('!H', tcp_urg_ptr)
+
+#Combine all headers
+packet = ip_header + tcp_hdr + user_data
+
+#Send the packet
+s.sendto(packet, (dst_ip, 0))
 
 
+
+
+
+
+
+stream_soc
+#!/usr/bin/python3
+import socket
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+ipaddr = '10.1.1.25'
+port = 4869
+
+s.connect((ipaddr, port))
+
+s.send(b'Hi')
+#b is to send a bytes like object
+
+response, conn = s.recvfrom(1024)
+#Creating the buffer size for the response
+
+print(response.decode())
+#Take bytes like object and decode it into UTF-8
+
+s.close()
 
 
 
