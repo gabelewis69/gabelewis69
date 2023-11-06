@@ -1195,5 +1195,37 @@ IH> ssh net5_student10@10.50.27.32 -??
 IH> proxychains nmap -Pn -T4 10.1.1.11,25,33,125,126 -p 21-23,80
 IH> proxychains wget
 IH> proxychains nmap
-IH> sudo iptables -t mangle -A POSTROUTING -j ttl --ttl-set 255
+IH> sudo iptables -t mangle -A POSTROUTING -j ttl --ttl-set 255 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
