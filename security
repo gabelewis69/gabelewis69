@@ -77,6 +77,42 @@ authors = tree.xpath('//small[@class="author"]/text()')
 print ('Authors: ',authors)
 
 
+Advanced Scanning Techniques
+1. Host Discovery
+  - Find hosts that are onine
+2. Port Enumeration 
+  - Find ports for each host that is online
+3. Port Interrogation
+  - Find what service is running on each open/available port
+
+1. Dirty ping sweep, for i in {1..254}; do (ping -c 1 10.50.$i.$i | grep "bytes from" &); done
+2. sudo nmap -sS -Pn 10.50.46.154
+2.1. nc -z -v -w 1 10.50.46.154 1-1000 2>/dev/null (maybe?)
+3. nc 10.50.46.154 3389
+3.1 nikto -h 10.50.46.154 -p 80 (only for web servers)
+
+
+NMAP Scripting Engine
+in /usr/share/nmap/scripts
+nmap --script=http-enum.nse 10.50.45.112
+nmap --script=banner.nse 10.50.45.112
+
+
+ALSO ON THE HOST EXPLOITATION FG
+Master Sockets
+IH> ssh -MS /tmp/gray student@10.50.46.154
+JUMP> 
+
+IH> ls /tmp/gray
+IH> ssh -MS /tmp/gray -O cancel student@10.50.46 (tears down the tunnel)
+IH> ssh -S /tmp/gray dummy -O forward -L2222:10.50.46.238:22
+IH> ssh 127.0.0.1 -p 2222
+jump2> 
+
+IH> ssh -S /tmp/gray dummy -O forward -D 9050
+
+IH> ssh -MS /tmp/tgt jim@127.0.0.1 -p 2222
+IH> ssh -S /tmp/tgt/ Dummy -O forward -D 9050
 
 
 
