@@ -305,4 +305,43 @@ lastname:
 
 
 
+Reverse Engineering
+_______________________________________________________________________________________________________________________
+
+
+MOV move source to destination, LEA is also MOV
+PUSH Pushes a round on top
+POP Pops one off the top
+CMP compares by subtracting them and setting the %RFLAGS register. ZeroFlag set means they are the same
+JMP jump to specific location
+JLE Jump if less than
+JE Jump if equal
+JNZ Jump if not zero
+
+
+Win-ops station will be the primary thing we will be using 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
