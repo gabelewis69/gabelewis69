@@ -474,6 +474,15 @@ What you need is the memory from the .111 machine and you need to set up the msf
 
 
 
+WINDOWS EXPLOIT
+
+opens up a cmd prompt that says Waiting for client cononections....
+Emulate an attack from the lin ops
+msfconsole set payload
+
+
+
+
 
 
 
