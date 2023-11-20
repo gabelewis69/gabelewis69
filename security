@@ -494,3 +494,108 @@ msfconsole set payload
 
 
 wiremask.eu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Post Exploitation 
+_______________________________________________________________________________________________________________________
+
+port enumeration
+user/shell enumeration - cat /etc/passwd or net user
+password enumeration - cat /etc/shadow
+process enumeration - netstat, tasklist /v, or ps -elf
+scheduled task - cat /etc/crontab or schedtask
+network enumeration - ip a, ifconfig -a, ipconfig /all, *cat /etc/host
+registry keys - regedit
+service enumeration - tasklist /svc, chkconfig, or systemctl --type=service
+
+
+
+steal a private key and put it onto your box 
+chmod 600 /home/student/stolenkey
+ssh -i /home/student/stolenkey jane@1.2.3.4
+
+find / -iname "notes.*" 2>/dev/null
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------- STRANGE ------------------------------- 
+student@lin-ops:/etc$ cat john/john-mail.msg 
+Subject: Bad password!
+
+Hello!
+
+Your password for account @LOGIN at host @HOSTNAME is too easy!
+Please change it as soon as possible.
+
+John the Ripper, an automated password cracker.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
