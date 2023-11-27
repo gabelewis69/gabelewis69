@@ -714,6 +714,32 @@ msfvenom -p windows/exec CMD="cmd.exe /C whoami > "C:\\whoami.txt"" -b '\x00' -f
 
 look at .c files
 
+ssh -MS /tmp/gray student@10.50.46.154
+ssh -S /tmp/gray dummy -O forward -L 9876:192.168.28.105:2222
+ssh -MS /tmp/hundofive comrade@127.0.0.1 -p 9876
+ssh -S /tmp/hundofive dummy -O forward -L 7890:192.168.28.5:3389
+xfreerdp /u:comrade /v:127.0.0.1:7890 -dynamic-resolution +glyph-cache +clipboard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
