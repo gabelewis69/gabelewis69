@@ -897,9 +897,31 @@ end of vim
 
 msfvenom -p linux/x86/exec CMD="cat /etc/shadow" -b '\x00' -f python
 
+./func <<< $(python lin_buff.py)
+sudo !!
+NEVER PUT SUDO IN THE MSFVENOM COMMAND
+save buffer overflow for last
 
+Linux Kernel
+uname -a
 
+rsyslog
+cat /etc/rsyslog.conf
 
+Windows Post-Ex
+runkeys! (take note)
+C:\Users
+In explorer:
+    top left "File"
+    top right "View Hidden Files"
+
+Security Policies
+auditpol /get /category:*
+####    MUST BE A PRIVILEGED USER     ####
+#### MUST BE PRIVILEGED RUNAS FOR CMD ####
+
+C Code
+>> << bit shift
 
 
 
